@@ -42,34 +42,6 @@ namespace Library_Management_App_v2.Controller
 
         }
      
-     
-        public void addBook(Model.Book book)
-        {
-
-            books.Add(book);
-            SaveData(books,"books.json");
-        }
-
-        public int idGen()
-        {
-          
-          int bookId = 0;
-            if (books.Count == 0)
-            {
-                return 1;
-            }
-            else
-            {
-                if (books.Count > 0)
-                {
-                    bookId = books.Max(b => b.Id) + 1;
-                }
-                else
-                {
-                    MessageBox.Show("Empty DataBase");
-                }
-            }
-            return bookId;
-        }
+   
     }
 }

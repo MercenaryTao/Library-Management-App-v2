@@ -121,10 +121,13 @@
   <data name="20231013_183730" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\20231013_183730.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="27d9f760978c30b9118665485f8f82b5" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\27d9f760978c30b9118665485f8f82b5.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="20230917_185800" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\20230917_185800.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="27d9f760978c30b9118665485f8f82b5" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\27d9f760978c30b9118665485f8f82b5.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="BookImages" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\bin\Debug\BookImages.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

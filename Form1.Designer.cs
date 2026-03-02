@@ -28,8 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.dataDisplay = new System.Windows.Forms.DataGridView();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.isbnBx = new System.Windows.Forms.RichTextBox();
             this.addBtn = new System.Windows.Forms.Button();
             this.genreCombo = new System.Windows.Forms.ComboBox();
             this.label3 = new System.Windows.Forms.Label();
@@ -43,25 +44,15 @@
             this.srchCombo = new System.Windows.Forms.ComboBox();
             this.deleteBtn = new System.Windows.Forms.Button();
             this.searchBtn = new System.Windows.Forms.Button();
-            this.isbnBx = new System.Windows.Forms.RichTextBox();
-            this.label4 = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.dataDisplay)).BeginInit();
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.borrowMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.addNewMemberToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.dataDisplay = new System.Windows.Forms.DataGridView();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
+            this.menuStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataDisplay)).BeginInit();
             this.SuspendLayout();
-            // 
-            // dataDisplay
-            // 
-            this.dataDisplay.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.dataDisplay.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dataDisplay.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataDisplay.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.dataDisplay.Location = new System.Drawing.Point(22, 444);
-            this.dataDisplay.Name = "dataDisplay";
-            this.dataDisplay.Size = new System.Drawing.Size(1093, 146);
-            this.dataDisplay.TabIndex = 0;
             // 
             // groupBox1
             // 
@@ -79,12 +70,31 @@
             this.groupBox1.Controls.Add(this.authorBx);
             this.groupBox1.Controls.Add(this.descrBx);
             this.groupBox1.Controls.Add(this.titleBx);
-            this.groupBox1.Location = new System.Drawing.Point(12, 12);
+            this.groupBox1.Location = new System.Drawing.Point(12, 27);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(462, 349);
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Add Books";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.Location = new System.Drawing.Point(260, 85);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(36, 13);
+            this.label4.TabIndex = 10;
+            this.label4.Text = "ISBN";
+            // 
+            // isbnBx
+            // 
+            this.isbnBx.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.isbnBx.Location = new System.Drawing.Point(263, 101);
+            this.isbnBx.Name = "isbnBx";
+            this.isbnBx.Size = new System.Drawing.Size(180, 35);
+            this.isbnBx.TabIndex = 9;
+            this.isbnBx.Text = "";
             // 
             // addBtn
             // 
@@ -176,7 +186,7 @@
             this.groupBox2.Controls.Add(this.srchCombo);
             this.groupBox2.Controls.Add(this.deleteBtn);
             this.groupBox2.Controls.Add(this.searchBtn);
-            this.groupBox2.Location = new System.Drawing.Point(653, 12);
+            this.groupBox2.Location = new System.Drawing.Point(653, 27);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(462, 349);
             this.groupBox2.TabIndex = 2;
@@ -226,24 +236,45 @@
             this.searchBtn.UseVisualStyleBackColor = true;
             this.searchBtn.Click += new System.EventHandler(this.searchBtn_Click);
             // 
-            // isbnBx
+            // menuStrip1
             // 
-            this.isbnBx.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.isbnBx.Location = new System.Drawing.Point(263, 101);
-            this.isbnBx.Name = "isbnBx";
-            this.isbnBx.Size = new System.Drawing.Size(180, 35);
-            this.isbnBx.TabIndex = 9;
-            this.isbnBx.Text = "";
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.borrowMenu,
+            this.addNewMemberToolStripMenuItem});
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Size = new System.Drawing.Size(1143, 24);
+            this.menuStrip1.TabIndex = 3;
+            this.menuStrip1.Text = "menuStrip1";
             // 
-            // label4
+            // borrowMenu
             // 
-            this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(260, 85);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(36, 13);
-            this.label4.TabIndex = 10;
-            this.label4.Text = "ISBN";
+            this.borrowMenu.BackColor = System.Drawing.Color.Transparent;
+            this.borrowMenu.BackgroundImage = global::Library_Management_App_v2.Properties.Resources._27d9f760978c30b9118665485f8f82b5;
+            this.borrowMenu.ImageTransparentColor = System.Drawing.Color.Transparent;
+            this.borrowMenu.Name = "borrowMenu";
+            this.borrowMenu.Size = new System.Drawing.Size(107, 20);
+            this.borrowMenu.Text = "Lend to Member";
+            this.borrowMenu.Click += new System.EventHandler(this.borrowMenu_Click);
+            // 
+            // addNewMemberToolStripMenuItem
+            // 
+            this.addNewMemberToolStripMenuItem.BackgroundImage = global::Library_Management_App_v2.Properties.Resources._27d9f760978c30b9118665485f8f82b5;
+            this.addNewMemberToolStripMenuItem.Name = "addNewMemberToolStripMenuItem";
+            this.addNewMemberToolStripMenuItem.Size = new System.Drawing.Size(116, 20);
+            this.addNewMemberToolStripMenuItem.Text = "Add New Member";
+            this.addNewMemberToolStripMenuItem.Click += new System.EventHandler(this.addNewMemberToolStripMenuItem_Click);
+            // 
+            // dataDisplay
+            // 
+            this.dataDisplay.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.dataDisplay.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataDisplay.Location = new System.Drawing.Point(103, 447);
+            this.dataDisplay.Name = "dataDisplay";
+            this.dataDisplay.Size = new System.Drawing.Size(884, 32);
+            this.dataDisplay.TabIndex = 4;
             // 
             // Form1
             // 
@@ -253,26 +284,31 @@
             this.BackgroundImage = global::Library_Management_App_v2.Properties.Resources._27d9f760978c30b9118665485f8f82b5;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(1143, 602);
+            this.Controls.Add(this.dataDisplay);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.dataDisplay);
+            this.Controls.Add(this.menuStrip1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
+            this.MainMenuStrip = this.menuStrip1;
+            this.MaximizeBox = false;
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Form1";
             this.TransparencyKey = System.Drawing.Color.Silver;
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-            ((System.ComponentModel.ISupportInitialize)(this.dataDisplay)).EndInit();
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form1_FormClosed);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
+            this.menuStrip1.ResumeLayout(false);
+            this.menuStrip1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataDisplay)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
-
-        private System.Windows.Forms.DataGridView dataDisplay;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.ComboBox srchCombo;
@@ -289,6 +325,10 @@
         private System.Windows.Forms.Button addBtn;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.RichTextBox isbnBx;
+        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem borrowMenu;
+        private System.Windows.Forms.ToolStripMenuItem addNewMemberToolStripMenuItem;
+        private System.Windows.Forms.DataGridView dataDisplay;
     }
 }
 
