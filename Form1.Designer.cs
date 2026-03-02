@@ -41,13 +41,13 @@
             this.titleBx = new System.Windows.Forms.RichTextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.srchParam = new System.Windows.Forms.RichTextBox();
-            this.srchCombo = new System.Windows.Forms.ComboBox();
             this.deleteBtn = new System.Windows.Forms.Button();
-            this.searchBtn = new System.Windows.Forms.Button();
+            this.searchBtn1 = new System.Windows.Forms.Button();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.borrowMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.addNewMemberToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dataDisplay = new System.Windows.Forms.DataGridView();
+            this.srchCombo1 = new System.Windows.Forms.ComboBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -182,10 +182,10 @@
             this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox2.BackColor = System.Drawing.Color.Transparent;
+            this.groupBox2.Controls.Add(this.srchCombo1);
             this.groupBox2.Controls.Add(this.srchParam);
-            this.groupBox2.Controls.Add(this.srchCombo);
             this.groupBox2.Controls.Add(this.deleteBtn);
-            this.groupBox2.Controls.Add(this.searchBtn);
+            this.groupBox2.Controls.Add(this.searchBtn1);
             this.groupBox2.Location = new System.Drawing.Point(653, 27);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(462, 349);
@@ -202,20 +202,6 @@
             this.srchParam.TabIndex = 4;
             this.srchParam.Text = "";
             // 
-            // srchCombo
-            // 
-            this.srchCombo.FormattingEnabled = true;
-            this.srchCombo.Items.AddRange(new object[] {
-            "Book ID",
-            "Title",
-            "Author",
-            "Genre"});
-            this.srchCombo.Location = new System.Drawing.Point(22, 50);
-            this.srchCombo.Name = "srchCombo";
-            this.srchCombo.Size = new System.Drawing.Size(121, 21);
-            this.srchCombo.TabIndex = 3;
-            this.srchCombo.Text = "Search By:";
-            // 
             // deleteBtn
             // 
             this.deleteBtn.Location = new System.Drawing.Point(208, 231);
@@ -226,15 +212,15 @@
             this.deleteBtn.UseVisualStyleBackColor = true;
             this.deleteBtn.Click += new System.EventHandler(this.deleteBtn_Click);
             // 
-            // searchBtn
+            // searchBtn1
             // 
-            this.searchBtn.Location = new System.Drawing.Point(22, 231);
-            this.searchBtn.Name = "searchBtn";
-            this.searchBtn.Size = new System.Drawing.Size(117, 50);
-            this.searchBtn.TabIndex = 1;
-            this.searchBtn.Text = "Search";
-            this.searchBtn.UseVisualStyleBackColor = true;
-            this.searchBtn.Click += new System.EventHandler(this.searchBtn_Click);
+            this.searchBtn1.Location = new System.Drawing.Point(22, 231);
+            this.searchBtn1.Name = "searchBtn1";
+            this.searchBtn1.Size = new System.Drawing.Size(117, 50);
+            this.searchBtn1.TabIndex = 1;
+            this.searchBtn1.Text = "Search";
+            this.searchBtn1.UseVisualStyleBackColor = true;
+            this.searchBtn1.Click += new System.EventHandler(this.searchBtn_Click);
             // 
             // menuStrip1
             // 
@@ -276,6 +262,20 @@
             this.dataDisplay.Size = new System.Drawing.Size(884, 32);
             this.dataDisplay.TabIndex = 4;
             // 
+            // srchCombo1
+            // 
+            this.srchCombo1.FormattingEnabled = true;
+            this.srchCombo1.Items.AddRange(new object[] {
+            "Book ID",
+            "Title",
+            "Author",
+            "Genre"});
+            this.srchCombo1.Location = new System.Drawing.Point(22, 36);
+            this.srchCombo1.Name = "srchCombo1";
+            this.srchCombo1.Size = new System.Drawing.Size(121, 21);
+            this.srchCombo1.TabIndex = 7;
+            this.srchCombo1.Text = "Search By:";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -311,9 +311,8 @@
         #endregion
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.ComboBox srchCombo;
         private System.Windows.Forms.Button deleteBtn;
-        private System.Windows.Forms.Button searchBtn;
+        private System.Windows.Forms.Button searchBtn1;
         private System.Windows.Forms.RichTextBox authorBx;
         private System.Windows.Forms.RichTextBox descrBx;
         private System.Windows.Forms.RichTextBox titleBx;
@@ -329,6 +328,7 @@
         private System.Windows.Forms.ToolStripMenuItem borrowMenu;
         private System.Windows.Forms.ToolStripMenuItem addNewMemberToolStripMenuItem;
         private System.Windows.Forms.DataGridView dataDisplay;
+        private System.Windows.Forms.ComboBox srchCombo1;
     }
 }
 

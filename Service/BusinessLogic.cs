@@ -20,7 +20,7 @@ namespace Library_Management_App_v2.Service
         }
         public void deleteBook(int id)
         {
-            
+
             var bookToDelete = books.FirstOrDefault(b => b.Id == id);
             if (bookToDelete != null)
             {
@@ -64,10 +64,8 @@ namespace Library_Management_App_v2.Service
         {
 
             var searchResults = new List<Book>();
-            //foreach (var book in books)
-            //{
-            //    MessageBox.Show(book.Title);
-            //}
+            searchResults.Clear();
+
             if (sel == -1)
                 return searchResults;
 
@@ -96,9 +94,40 @@ namespace Library_Management_App_v2.Service
                         b.Genre.IndexOf(srchPar, StringComparison.OrdinalIgnoreCase) >= 0)
                         .ToList();
             }
-      
-      
+
+
             return searchResults;
+        }
+
+        public void borrowBook(Book book)
+        {
+            
+            if (book != null && !book.IsBorrowed)
+            {
+                book.IsBorrowed = true;
+                book.DateBorrowed = DateTime.Now;
+                book.DueDate = DateTime.Now.AddDays(14);
+                    JSONStorage.SaveData(books, "books.json");
+            }
+            else
+            {
+                MessageBox.Show("Book not found or already borrowed.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        public void returnBook(Book book)
+        {
+            var bookToReturn = books.FirstOrDefault(b => b == book);
+            if (bookToReturn != null && bookToReturn.IsBorrowed)
+            {
+                bookToReturn.IsBorrowed = false;
+                bookToReturn.DateReturned = DateTime.Now;
+                JSONStorage.SaveData(books, "books.json");
+            }
+            else
+            {
+                MessageBox.Show("Book not found or not currently borrowed.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }

@@ -18,16 +18,22 @@ namespace Library_Management_App_v2
         private string filePath = @"C:\Users\sirlv\source\repos\Library Management App v2\bin\Debug\books.json";
         JSONStorage JSONStorage = new JSONStorage();
         BusinessLogic businessLogic;
-        BindingList<Model.Book> books = new BindingList<Book>();
+
+        BindingList<Model.Book> books = JSONStorage.books;
 
         public Form1()
         {
             InitializeComponent();
+            srchCombo1.DropDownStyle = ComboBoxStyle.DropDownList;
+
+            // Load the books first
+            books = JSONStorage.loadData("books.json"); // now 'books' has the data
+
+            // Pass the populated list to businessLogic
             businessLogic = new BusinessLogic(books);
-            //createCols();
-            books = JSONStorage.loadData("books.json");
-            dataDisplay.DataSource = JSONStorage.loadData(filePath);
-            srchCombo.DropDownStyle = ComboBoxStyle.DropDownList;
+
+            // Bind the same list to the grid
+            dataDisplay.DataSource = books;
         }
 
         private void createCols()
@@ -131,20 +137,21 @@ namespace Library_Management_App_v2
 
         private void searchBtn_Click(object sender, EventArgs e)
         {
-        
-
-            int searchItem = srchCombo.SelectedIndex;
+    
+            int searchItem = srchCombo1.SelectedIndex;
             string searchParam = srchParam.Text;
-            var results = businessLogic.SearchMethod(searchParam, searchItem);     
-            dataDisplay.DataSource = results;
+            
+            var results1 = businessLogic.SearchMethod(searchParam, searchItem);
+            
+            dataDisplay.DataSource = results1;
         }
 
         private void borrowMenu_Click(object sender, EventArgs e)
         {
-             this.Hide();
+            this.Hide();
             Borrow borrowForm = new Borrow();
             borrowForm.ShowDialog();
-            
+
         }
 
         private void addNewMemberToolStripMenuItem_Click(object sender, EventArgs e)

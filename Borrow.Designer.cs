@@ -29,18 +29,18 @@
         private void InitializeComponent()
         {
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.srchParam = new System.Windows.Forms.RichTextBox();
+            this.srchCombo2 = new System.Windows.Forms.ComboBox();
+            this.searchBtn2 = new System.Windows.Forms.Button();
             this.Returnbtn = new System.Windows.Forms.Button();
             this.BorrowBtn = new System.Windows.Forms.Button();
-            this.dataGridView2 = new System.Windows.Forms.DataGridView();
+            this.memberView = new System.Windows.Forms.DataGridView();
             this.bookDgv = new System.Windows.Forms.DataGridView();
-            this.srchParam = new System.Windows.Forms.RichTextBox();
-            this.srchCombo = new System.Windows.Forms.ComboBox();
-            this.searchBtn = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.memberView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bookDgv)).BeginInit();
             this.SuspendLayout();
             // 
@@ -56,8 +56,8 @@
             this.splitContainer1.Panel1.BackgroundImage = global::Library_Management_App_v2.Properties.Resources.BookImages;
             this.splitContainer1.Panel1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.splitContainer1.Panel1.Controls.Add(this.srchParam);
-            this.splitContainer1.Panel1.Controls.Add(this.srchCombo);
-            this.splitContainer1.Panel1.Controls.Add(this.searchBtn);
+            this.splitContainer1.Panel1.Controls.Add(this.srchCombo2);
+            this.splitContainer1.Panel1.Controls.Add(this.searchBtn2);
             this.splitContainer1.Panel1.Controls.Add(this.Returnbtn);
             this.splitContainer1.Panel1.Controls.Add(this.BorrowBtn);
             // 
@@ -65,11 +65,45 @@
             // 
             this.splitContainer1.Panel2.BackColor = System.Drawing.Color.Black;
             this.splitContainer1.Panel2.BackgroundImage = global::Library_Management_App_v2.Properties.Resources._27d9f760978c30b9118665485f8f82b5;
-            this.splitContainer1.Panel2.Controls.Add(this.dataGridView2);
+            this.splitContainer1.Panel2.Controls.Add(this.memberView);
             this.splitContainer1.Panel2.Controls.Add(this.bookDgv);
             this.splitContainer1.Size = new System.Drawing.Size(1104, 652);
             this.splitContainer1.SplitterDistance = 367;
             this.splitContainer1.TabIndex = 0;
+            // 
+            // srchParam
+            // 
+            this.srchParam.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.srchParam.Location = new System.Drawing.Point(12, 89);
+            this.srchParam.Name = "srchParam";
+            this.srchParam.Size = new System.Drawing.Size(303, 46);
+            this.srchParam.TabIndex = 7;
+            this.srchParam.Text = "";
+            // 
+            // srchCombo2
+            // 
+            this.srchCombo2.FormattingEnabled = true;
+            this.srchCombo2.Items.AddRange(new object[] {
+            "Book ID",
+            "Title",
+            "Author",
+            "Genre"});
+            this.srchCombo2.Location = new System.Drawing.Point(12, 38);
+            this.srchCombo2.Name = "srchCombo2";
+            this.srchCombo2.Size = new System.Drawing.Size(121, 21);
+            this.srchCombo2.TabIndex = 6;
+            this.srchCombo2.Text = "Search By:";
+            // 
+            // searchBtn2
+            // 
+            this.searchBtn2.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.searchBtn2.Location = new System.Drawing.Point(12, 219);
+            this.searchBtn2.Name = "searchBtn2";
+            this.searchBtn2.Size = new System.Drawing.Size(117, 50);
+            this.searchBtn2.TabIndex = 5;
+            this.searchBtn2.Text = "Search";
+            this.searchBtn2.UseVisualStyleBackColor = true;
+            this.searchBtn2.Click += new System.EventHandler(this.searchBtn_Click);
             // 
             // Returnbtn
             // 
@@ -82,27 +116,30 @@
             this.Returnbtn.TabIndex = 1;
             this.Returnbtn.Text = "Return Book";
             this.Returnbtn.UseVisualStyleBackColor = false;
+            this.Returnbtn.Click += new System.EventHandler(this.Returnbtn_Click);
             // 
             // BorrowBtn
             // 
             this.BorrowBtn.BackColor = System.Drawing.Color.Sienna;
+            this.BorrowBtn.Cursor = System.Windows.Forms.Cursors.Hand;
             this.BorrowBtn.Location = new System.Drawing.Point(12, 483);
             this.BorrowBtn.Name = "BorrowBtn";
             this.BorrowBtn.Size = new System.Drawing.Size(174, 77);
             this.BorrowBtn.TabIndex = 0;
             this.BorrowBtn.Text = "Borrow Book";
             this.BorrowBtn.UseVisualStyleBackColor = false;
+            this.BorrowBtn.Click += new System.EventHandler(this.BorrowBtn_Click);
             // 
-            // dataGridView2
+            // memberView
             // 
-            this.dataGridView2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.dataGridView2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.dataGridView2.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.Raised;
-            this.dataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView2.Location = new System.Drawing.Point(3, 362);
-            this.dataGridView2.Name = "dataGridView2";
-            this.dataGridView2.Size = new System.Drawing.Size(727, 287);
-            this.dataGridView2.TabIndex = 1;
+            this.memberView.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.memberView.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.memberView.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.Raised;
+            this.memberView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.memberView.Location = new System.Drawing.Point(3, 362);
+            this.memberView.Name = "memberView";
+            this.memberView.Size = new System.Drawing.Size(727, 287);
+            this.memberView.TabIndex = 1;
             // 
             // bookDgv
             // 
@@ -111,41 +148,9 @@
             this.bookDgv.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.bookDgv.Location = new System.Drawing.Point(3, 38);
             this.bookDgv.Name = "bookDgv";
+            this.bookDgv.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.bookDgv.Size = new System.Drawing.Size(727, 318);
             this.bookDgv.TabIndex = 0;
-            // 
-            // srchParam
-            // 
-            this.srchParam.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.srchParam.Location = new System.Drawing.Point(12, 89);
-            this.srchParam.Name = "srchParam";
-            this.srchParam.Size = new System.Drawing.Size(303, 46);
-            this.srchParam.TabIndex = 7;
-            this.srchParam.Text = "";
-            // 
-            // srchCombo
-            // 
-            this.srchCombo.FormattingEnabled = true;
-            this.srchCombo.Items.AddRange(new object[] {
-            "Book ID",
-            "Title",
-            "Author",
-            "Genre"});
-            this.srchCombo.Location = new System.Drawing.Point(12, 38);
-            this.srchCombo.Name = "srchCombo";
-            this.srchCombo.Size = new System.Drawing.Size(121, 21);
-            this.srchCombo.TabIndex = 6;
-            this.srchCombo.Text = "Search By:";
-            // 
-            // searchBtn
-            // 
-            this.searchBtn.Location = new System.Drawing.Point(12, 219);
-            this.searchBtn.Name = "searchBtn";
-            this.searchBtn.Size = new System.Drawing.Size(117, 50);
-            this.searchBtn.TabIndex = 5;
-            this.searchBtn.Text = "Search";
-            this.searchBtn.UseVisualStyleBackColor = true;
-            this.searchBtn.Click += new System.EventHandler(this.searchBtn_Click);
             // 
             // Borrow
             // 
@@ -166,7 +171,7 @@
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.memberView)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.bookDgv)).EndInit();
             this.ResumeLayout(false);
 
@@ -177,10 +182,10 @@
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.Button Returnbtn;
         private System.Windows.Forms.Button BorrowBtn;
-        private System.Windows.Forms.DataGridView dataGridView2;
+        private System.Windows.Forms.DataGridView memberView;
         private System.Windows.Forms.DataGridView bookDgv;
         private System.Windows.Forms.RichTextBox srchParam;
-        private System.Windows.Forms.ComboBox srchCombo;
-        private System.Windows.Forms.Button searchBtn;
+        private System.Windows.Forms.ComboBox srchCombo2;
+        private System.Windows.Forms.Button searchBtn2;
     }
 }
