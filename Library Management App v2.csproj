@@ -88,6 +88,9 @@
     <Compile Include="Model\Member.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="AddMember.resx">
+      <DependentUpon>AddMember.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Borrow.resx">
       <DependentUpon>Borrow.cs</DependentUpon>
     </EmbeddedResource>

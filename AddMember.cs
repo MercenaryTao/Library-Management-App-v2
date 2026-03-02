@@ -16,5 +16,12 @@ namespace Library_Management_App_v2
         {
             InitializeComponent();
         }
+
+        private void AddMember_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            this.Close();
+            Form1 form1 = new Form1();
+            form1.Show();
+        }
     }
 }

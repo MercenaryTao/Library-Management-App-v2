@@ -157,6 +157,8 @@ namespace Library_Management_App_v2
         private void addNewMemberToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.Hide();
+            AddMember addMemberForm = new AddMember();
+            addMemberForm.ShowDialog();
 
         }
 

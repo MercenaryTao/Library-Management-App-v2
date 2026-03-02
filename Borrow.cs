@@ -23,6 +23,8 @@ namespace Library_Management_App_v2
             businessLogic = new BusinessLogic(books);
             InitializeComponent();
     bookDgv.DataSource = books;
+            businessLogic.overDueCheck();
+           
         }
 
         private void Borrow_FormClosed(object sender, FormClosedEventArgs e)
@@ -63,6 +65,15 @@ namespace Library_Management_App_v2
                 businessLogic.returnBook(selectedBook);
             }
             bookDgv.Refresh();
+        }
+
+        private void bookDgv_RowPrePaint(object sender, DataGridViewRowPrePaintEventArgs e)
+        {
+            bool isOverdue = true;
+            if (isOverdue)
+            {
+                
+            }
         }
     }
 }

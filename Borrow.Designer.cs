@@ -151,6 +151,7 @@
             this.bookDgv.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.bookDgv.Size = new System.Drawing.Size(727, 318);
             this.bookDgv.TabIndex = 0;
+            this.bookDgv.RowPrePaint += new System.Windows.Forms.DataGridViewRowPrePaintEventHandler(this.bookDgv_RowPrePaint);
             // 
             // Borrow
             // 
