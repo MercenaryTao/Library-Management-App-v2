@@ -23,7 +23,7 @@ namespace Library_Management_App_v2
         public Form1()
         {
             InitializeComponent();
-            
+            businessLogic = new BusinessLogic(books);
             //createCols();
             books = JSONStorage.loadData("books.json");
             dataDisplay.DataSource = JSONStorage.loadData(filePath);
@@ -131,57 +131,8 @@ namespace Library_Management_App_v2
 
         private void searchBtn_Click(object sender, EventArgs e)
         {
-            businessLogic = new BusinessLogic(books);
+        
 
-            //if (srchCombo.SelectedItem != null)
-            //{
-
-            //    switch (searchItem)
-            //    {case 0:
-
-            //            if (!string.IsNullOrEmpty(searchParam))
-            //            {
-            //                if (int.TryParse(srchParam.Text, out int idValue))
-            //                {
-            //                    var searchResults = books.Where(b => b.Id.Equals(int.Parse(searchParam))).ToList();
-            //                    MessageBox.Show($"Search yielded {searchResults.Count} results");
-            //                    dataDisplay.DataSource = searchResults;
-            //                }
-            //                else
-            //                {
-            //                    MessageBox.Show("Please enter a valid id.");
-            //                }
-            //            }
-            //            else
-            //            {
-            //                MessageBox.Show("Please enter a search parameter.");
-            //            }
-            //                break;
-            //        default:
-            //            break;
-            //      case 1:
-            //            var searchResults2 = books.Where(b => b.Title.IndexOf(searchParam, StringComparison.OrdinalIgnoreCase) >= 0).ToList();
-            //            MessageBox.Show($"Search yielded {searchResults2.Count} results");
-            //            dataDisplay.DataSource = searchResults2;
-            //            break;
-            //        case 2:
-            //            var searchResults3 = books.Where(b => b.Author.IndexOf(searchParam, StringComparison.OrdinalIgnoreCase) >= 0).ToList();
-            //            MessageBox.Show($"Search yielded {searchResults3.Count} results");
-            //            dataDisplay.DataSource = searchResults3;
-            //            break;
-            //        case 3:
-            //            var searchResults4 = books.Where(b => b.Genre.IndexOf(searchParam, StringComparison.OrdinalIgnoreCase) >= 0).ToList();
-            //            MessageBox.Show($"Search yielded {searchResults4.Count} results");
-            //            dataDisplay.DataSource = searchResults4;
-            //            break;
-            //    }
-
-            //}
-            //else
-            //{
-            //    MessageBox.Show("Please select a search criteria.");
-            //    return;
-            //}
             int searchItem = srchCombo.SelectedIndex;
             string searchParam = srchParam.Text;
             var results = businessLogic.SearchMethod(searchParam, searchItem);     
