@@ -27,13 +27,11 @@ namespace Library_Management_App_v2
             InitializeComponent();
             srchCombo1.DropDownStyle = ComboBoxStyle.DropDownList;
 
-            // Load the books first
-            books = JSONStorage.loadData("books.json"); // now 'books' has the data
+       
+            books = JSONStorage.loadData("books.json"); 
 
-            // Pass the populated list to businessLogic
             businessLogic = new BusinessLogic(books, members);
 
-            // Bind the same list to the grid
             dataDisplay.DataSource = books;
         }
 

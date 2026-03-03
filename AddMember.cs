@@ -94,6 +94,33 @@ namespace Library_Management_App_v2
         private void dltBtn_Click(object sender, EventArgs e)
         {
 
+            try
+            {
+                DialogResult dialogResult = MessageBox.Show("Are you sure you want to delete this entry? This process cannot be undone!", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                var selectedMember= memberView.CurrentRow?.DataBoundItem as Member;
+                int id = selectedMember.MemberId;
+                if (selectedMember!= null)
+                {
+                    if (dialogResult == DialogResult.Yes)
+                    {
+                        businessLogic.deleteMember(id);
+                    }
+                    else
+                    {
+                        return;
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Please select a Member to delete.");
+                }
+                memberView.Refresh();
+            }
+            catch (Exception m)
+            {
+                MessageBox.Show($"Operation unsuccessful.\n{m.Message}");
+                throw;
+            }
         }
     }
 }

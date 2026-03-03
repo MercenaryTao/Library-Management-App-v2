@@ -24,6 +24,7 @@ namespace Library_Management_App_v2
             businessLogic = new BusinessLogic(books, members);
             InitializeComponent();
     bookDgv.DataSource = books;
+            memberView.DataSource = members;
             businessLogic.overDueCheck();
            
         }

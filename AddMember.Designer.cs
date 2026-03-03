@@ -149,6 +149,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.MaximizeBox = false;
             this.Name = "AddMember";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "AddMember";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.AddMember_FormClosed);
             ((System.ComponentModel.ISupportInitialize)(this.memberView)).EndInit();
