@@ -14,9 +14,11 @@ namespace Library_Management_App_v2.Service
     {
         public JSONStorage JSONStorage = new JSONStorage();
         BindingList<Model.Book> books = new BindingList<Book>();
-        public BusinessLogic(BindingList<Book> loadedBooks)
+        BindingList<Model.Member> members = new BindingList<Member>();
+        public BusinessLogic(BindingList<Book> loadedBooks, BindingList<Member> loadedMembers)
         {
             books = loadedBooks;
+            members = loadedMembers;
         }
         public void deleteBook(int id)
         {
@@ -101,13 +103,13 @@ namespace Library_Management_App_v2.Service
 
         public void borrowBook(Book book)
         {
-            
+
             if (book != null && !book.IsBorrowed)
             {
                 book.IsBorrowed = true;
                 book.DateBorrowed = DateTime.Now;
                 book.DueDate = DateTime.Now.AddDays(14);
-                    JSONStorage.SaveData(books, "books.json");
+                JSONStorage.SaveData(books, "books.json");
             }
             else
             {
@@ -129,14 +131,57 @@ namespace Library_Management_App_v2.Service
                 MessageBox.Show("Book not found or not currently borrowed.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-            
+
         public void overDueCheck()
         {
-            var overdueBooks = books.Where(b =>b.DueDate.HasValue && b.DueDate.Value < b.DateReturned).ToList();
+            var overdueBooks = books.Where(b => b.DueDate.HasValue && b.DueDate.Value < b.DateReturned).ToList();
             if (overdueBooks.Count > 0)
             {
                 string message = "Overdue Books:\n" + string.Join("\n", overdueBooks.Select(b => $"{b.Title} (Due: {b.DueDate.Value.ToShortDateString()})"));
                 MessageBox.Show(message, "Overdue Books", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+        public void addMember(Member member)
+        {
+
+            members.Add(member);
+            JSONStorage.SaveMembersData(members, "members.json");
+        }
+
+
+        public int memberIdGen()
+        {
+
+            int memId = 0;
+            if (members.Count == 0)
+            {
+                return 1;
+            }
+            else
+            {
+                if (members.Count > 0)
+                {
+                    memId = members.Max(b => b.MemberId) + 1;
+                }
+                else
+                {
+                    MessageBox.Show("Empty DataBase");
+                }
+            }
+            return memId;
+        }
+
+        public void deleteMember(int id)
+        {
+            var memberToDelete = members.FirstOrDefault(m => m.MemberId == id);
+            if (memberToDelete != null)
+            {
+                members.Remove(memberToDelete);
+                JSONStorage.SaveMembersData(members, "members.json");
+            }
+            else
+            {
+                MessageBox.Show("Member not found.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }

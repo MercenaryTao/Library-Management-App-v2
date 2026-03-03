@@ -18,9 +18,10 @@ namespace Library_Management_App_v2
     {
         BusinessLogic businessLogic;
         BindingList<Model.Book> books = JSONStorage.books;
+        BindingList<Model.Member> members = JSONStorage.members;
         public Borrow()
         {
-            businessLogic = new BusinessLogic(books);
+            businessLogic = new BusinessLogic(books, members);
             InitializeComponent();
     bookDgv.DataSource = books;
             businessLogic.overDueCheck();

@@ -40,6 +40,7 @@
             this.descrBx = new System.Windows.Forms.RichTextBox();
             this.titleBx = new System.Windows.Forms.RichTextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.srchCombo1 = new System.Windows.Forms.ComboBox();
             this.srchParam = new System.Windows.Forms.RichTextBox();
             this.deleteBtn = new System.Windows.Forms.Button();
             this.searchBtn1 = new System.Windows.Forms.Button();
@@ -47,7 +48,6 @@
             this.borrowMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.addNewMemberToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dataDisplay = new System.Windows.Forms.DataGridView();
-            this.srchCombo1 = new System.Windows.Forms.ComboBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -193,6 +193,20 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Search And Delete";
             // 
+            // srchCombo1
+            // 
+            this.srchCombo1.FormattingEnabled = true;
+            this.srchCombo1.Items.AddRange(new object[] {
+            "Book ID",
+            "Title",
+            "Author",
+            "Genre"});
+            this.srchCombo1.Location = new System.Drawing.Point(22, 36);
+            this.srchCombo1.Name = "srchCombo1";
+            this.srchCombo1.Size = new System.Drawing.Size(121, 21);
+            this.srchCombo1.TabIndex = 7;
+            this.srchCombo1.Text = "Search By:";
+            // 
             // srchParam
             // 
             this.srchParam.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
@@ -262,20 +276,6 @@
             this.dataDisplay.Size = new System.Drawing.Size(884, 32);
             this.dataDisplay.TabIndex = 4;
             // 
-            // srchCombo1
-            // 
-            this.srchCombo1.FormattingEnabled = true;
-            this.srchCombo1.Items.AddRange(new object[] {
-            "Book ID",
-            "Title",
-            "Author",
-            "Genre"});
-            this.srchCombo1.Location = new System.Drawing.Point(22, 36);
-            this.srchCombo1.Name = "srchCombo1";
-            this.srchCombo1.Size = new System.Drawing.Size(121, 21);
-            this.srchCombo1.TabIndex = 7;
-            this.srchCombo1.Text = "Search By:";
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -293,7 +293,7 @@
             this.MaximizeBox = false;
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Form1";
+            this.Text = "Library Management v2";
             this.TransparencyKey = System.Drawing.Color.Silver;
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form1_FormClosed);

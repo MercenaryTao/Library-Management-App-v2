@@ -15,11 +15,12 @@ namespace Library_Management_App_v2
 {
     public partial class Form1 : Form
     {
-        private string filePath = @"C:\Users\sirlv\source\repos\Library Management App v2\bin\Debug\books.json";
+        private string bookPath = @"C:\Users\sirlv\source\repos\Library Management App v2\bin\Debug\books.json";
         JSONStorage JSONStorage = new JSONStorage();
         BusinessLogic businessLogic;
 
         BindingList<Model.Book> books = JSONStorage.books;
+        BindingList<Model.Member> members = JSONStorage.members;    
 
         public Form1()
         {
@@ -30,7 +31,7 @@ namespace Library_Management_App_v2
             books = JSONStorage.loadData("books.json"); // now 'books' has the data
 
             // Pass the populated list to businessLogic
-            businessLogic = new BusinessLogic(books);
+            businessLogic = new BusinessLogic(books, members);
 
             // Bind the same list to the grid
             dataDisplay.DataSource = books;
@@ -110,7 +111,7 @@ namespace Library_Management_App_v2
             }
 
            dataDisplay.DataSource = null;
-            dataDisplay.DataSource = JSONStorage.loadData(filePath);
+            dataDisplay.DataSource = JSONStorage.loadData(bookPath);
         }
 
         private void deleteBtn_Click(object sender, EventArgs e)
@@ -133,6 +134,7 @@ namespace Library_Management_App_v2
             {
                 MessageBox.Show("Please select a book to delete.");
             }
+            dataDisplay.Refresh();
         }
 
         private void searchBtn_Click(object sender, EventArgs e)
