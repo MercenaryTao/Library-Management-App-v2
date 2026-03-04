@@ -15,19 +15,19 @@ using System.Net.Mail;
 namespace Library_Management_App_v2
 {
     public partial class AddMember : Form
-    {
-        string memberPath = @"C:\Users\sirlv\source\repos\Library Management App v2\bin\Debug\members.json";
+    { 
         BusinessLogic businessLogic;
         JSONStorage storage = new JSONStorage();
         Member member;
         BindingList<Model.Book> books = JSONStorage.books;
         BindingList <Member> members = JSONStorage.members;
+            BindingList<Loan> loans = JSONStorage.loans;
         public AddMember()
         {
             InitializeComponent();
             members = storage.loadMembersData("members.json");
 
-            businessLogic = new BusinessLogic(books, members);
+            businessLogic = new BusinessLogic(books, members, loans);
           
             memberView.DataSource = members;
         }

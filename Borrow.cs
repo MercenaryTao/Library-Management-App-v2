@@ -20,13 +20,15 @@ namespace Library_Management_App_v2
         BusinessLogic businessLogic;
         BindingList<Model.Book> books = JSONStorage.books;
         BindingList<Model.Member> members = JSONStorage.members;
+        BindingList<Model.Loan> loans = JSONStorage.loans;
         public Borrow()
         {            
             InitializeComponent();
             members = storage.loadMembersData("members.json");
-            businessLogic = new BusinessLogic(books, members);
+            businessLogic = new BusinessLogic(books, members, loans);
             bookDgv.DataSource = books;
             memberView.DataSource = members;
+            loanedDgv.DataSource = loans;
             //businessLogic.overDueCheck();
            
         }
@@ -50,12 +52,26 @@ namespace Library_Management_App_v2
 
         private void BorrowBtn_Click(object sender, EventArgs e)
         {
-            if (bookDgv.SelectedRows.Count == 1)
-            {       
-                Book selectedBook = (Book)bookDgv.SelectedRows[0].DataBoundItem;
-                selectedBook.DateReturned = null;
-                businessLogic.borrowBook(selectedBook);
+            try
+            {
+                if (bookDgv.SelectedRows.Count == 1 && memberView.SelectedRows.Count == 1)
+                {
+                    Book selectedBook = (Book)bookDgv.SelectedRows[0].DataBoundItem;
+                    int bookId = selectedBook.Id;
+
+                    Member selectedMember = (Member)memberView.SelectedRows[0].DataBoundItem;
+                    int memberId = selectedMember.MemberId;
+
+                    businessLogic.borrowBook(bookId, memberId, selectedBook);
+                    MessageBox.Show($"Book '{selectedBook.Title}' has been borrowed by {selectedMember.Name} {selectedMember.Surname}");
+                }
             }
+            catch (Exception m)
+            {
+               
+          
+            }
+            
             bookDgv.Refresh();
         }
 
@@ -82,6 +98,11 @@ namespace Library_Management_App_v2
             {
                 row.DefaultCellStyle.BackColor = Color.White;
             }
+        }
+
+        private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            loanedDgv.Refresh();
         }
     }
 }

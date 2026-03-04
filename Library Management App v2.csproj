@@ -90,6 +90,7 @@
     <Compile Include="Borrow.Designer.cs">
       <DependentUpon>Borrow.cs</DependentUpon>
     </Compile>
+    <Compile Include="Model\Loan.cs" />
     <Compile Include="Service\BusinessLogic.cs" />
     <Compile Include="Service\JSONStorage.cs" />
     <Compile Include="Form1.cs">

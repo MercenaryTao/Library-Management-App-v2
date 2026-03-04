@@ -21,16 +21,18 @@ namespace Library_Management_App_v2
 
         BindingList<Model.Book> books = JSONStorage.books;
         BindingList<Model.Member> members = JSONStorage.members;    
+        BindingList<Model.Loan> loans = JSONStorage.loans;
 
         public Form1()
         {
             InitializeComponent();
             srchCombo1.DropDownStyle = ComboBoxStyle.DropDownList;
 
-       
+            JSONStorage.loadLoanData("loans.json");
+
             books = JSONStorage.loadData("books.json"); 
 
-            businessLogic = new BusinessLogic(books, members);
+            businessLogic = new BusinessLogic(books, members, loans);
 
             dataDisplay.DataSource = books;
         }

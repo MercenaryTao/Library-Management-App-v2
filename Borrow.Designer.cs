@@ -34,12 +34,20 @@
             this.searchBtn2 = new System.Windows.Forms.Button();
             this.Returnbtn = new System.Windows.Forms.Button();
             this.BorrowBtn = new System.Windows.Forms.Button();
+            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.loanedDgv = new System.Windows.Forms.DataGridView();
             this.memberView = new System.Windows.Forms.DataGridView();
             this.bookDgv = new System.Windows.Forms.DataGridView();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
+            this.tabControl1.SuspendLayout();
+            this.tabPage1.SuspendLayout();
+            this.tabPage2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.loanedDgv)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.memberView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bookDgv)).BeginInit();
             this.SuspendLayout();
@@ -65,15 +73,14 @@
             // 
             this.splitContainer1.Panel2.BackColor = System.Drawing.Color.Black;
             this.splitContainer1.Panel2.BackgroundImage = global::Library_Management_App_v2.Properties.Resources._27d9f760978c30b9118665485f8f82b5;
-            this.splitContainer1.Panel2.Controls.Add(this.memberView);
-            this.splitContainer1.Panel2.Controls.Add(this.bookDgv);
+            this.splitContainer1.Panel2.Controls.Add(this.tabControl1);
             this.splitContainer1.Size = new System.Drawing.Size(1104, 652);
             this.splitContainer1.SplitterDistance = 367;
             this.splitContainer1.TabIndex = 0;
             // 
             // srchParam
             // 
-            this.srchParam.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.srchParam.BackColor = System.Drawing.Color.White;
             this.srchParam.Location = new System.Drawing.Point(12, 89);
             this.srchParam.Name = "srchParam";
             this.srchParam.Size = new System.Drawing.Size(303, 46);
@@ -130,6 +137,53 @@
             this.BorrowBtn.UseVisualStyleBackColor = false;
             this.BorrowBtn.Click += new System.EventHandler(this.BorrowBtn_Click);
             // 
+            // tabControl1
+            // 
+            this.tabControl1.Controls.Add(this.tabPage1);
+            this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControl1.Location = new System.Drawing.Point(0, 0);
+            this.tabControl1.Name = "tabControl1";
+            this.tabControl1.SelectedIndex = 0;
+            this.tabControl1.Size = new System.Drawing.Size(733, 652);
+            this.tabControl1.TabIndex = 2;
+            this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
+            // 
+            // tabPage1
+            // 
+            this.tabPage1.BackColor = System.Drawing.Color.White;
+            this.tabPage1.BackgroundImage = global::Library_Management_App_v2.Properties.Resources.BookImages;
+            this.tabPage1.Controls.Add(this.memberView);
+            this.tabPage1.Controls.Add(this.bookDgv);
+            this.tabPage1.Location = new System.Drawing.Point(4, 22);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(725, 626);
+            this.tabPage1.TabIndex = 0;
+            this.tabPage1.Text = "Loan Books";
+            // 
+            // tabPage2
+            // 
+            this.tabPage2.BackgroundImage = global::Library_Management_App_v2.Properties.Resources.BookImages;
+            this.tabPage2.Controls.Add(this.loanedDgv);
+            this.tabPage2.Location = new System.Drawing.Point(4, 22);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(725, 626);
+            this.tabPage2.TabIndex = 1;
+            this.tabPage2.Text = "Display Loaned Books";
+            this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // loanedDgv
+            // 
+            this.loanedDgv.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.loanedDgv.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.loanedDgv.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.loanedDgv.Location = new System.Drawing.Point(3, 3);
+            this.loanedDgv.Name = "loanedDgv";
+            this.loanedDgv.Size = new System.Drawing.Size(719, 620);
+            this.loanedDgv.TabIndex = 0;
+            // 
             // memberView
             // 
             this.memberView.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
@@ -137,9 +191,10 @@
             this.memberView.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.memberView.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.Raised;
             this.memberView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.memberView.Location = new System.Drawing.Point(3, 362);
+            this.memberView.Location = new System.Drawing.Point(3, 324);
             this.memberView.Name = "memberView";
-            this.memberView.Size = new System.Drawing.Size(727, 287);
+            this.memberView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.memberView.Size = new System.Drawing.Size(726, 287);
             this.memberView.TabIndex = 1;
             // 
             // bookDgv
@@ -147,10 +202,10 @@
             this.bookDgv.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.bookDgv.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.bookDgv.Location = new System.Drawing.Point(3, 38);
+            this.bookDgv.Location = new System.Drawing.Point(0, 0);
             this.bookDgv.Name = "bookDgv";
             this.bookDgv.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.bookDgv.Size = new System.Drawing.Size(727, 318);
+            this.bookDgv.Size = new System.Drawing.Size(730, 318);
             this.bookDgv.TabIndex = 0;
             this.bookDgv.RowPrePaint += new System.Windows.Forms.DataGridViewRowPrePaintEventHandler(this.bookDgv_RowPrePaint);
             // 
@@ -173,6 +228,10 @@
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
+            this.tabControl1.ResumeLayout(false);
+            this.tabPage1.ResumeLayout(false);
+            this.tabPage2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.loanedDgv)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.memberView)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.bookDgv)).EndInit();
             this.ResumeLayout(false);
@@ -184,10 +243,14 @@
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.Button Returnbtn;
         private System.Windows.Forms.Button BorrowBtn;
-        private System.Windows.Forms.DataGridView memberView;
-        private System.Windows.Forms.DataGridView bookDgv;
         private System.Windows.Forms.RichTextBox srchParam;
         private System.Windows.Forms.ComboBox srchCombo2;
         private System.Windows.Forms.Button searchBtn2;
+        private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.TabPage tabPage1;
+        private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.DataGridView loanedDgv;
+        private System.Windows.Forms.DataGridView memberView;
+        private System.Windows.Forms.DataGridView bookDgv;
     }
 }

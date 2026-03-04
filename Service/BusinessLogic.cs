@@ -15,10 +15,12 @@ namespace Library_Management_App_v2.Service
         public JSONStorage JSONStorage = new JSONStorage();
         BindingList<Model.Book> books = new BindingList<Book>();
         BindingList<Model.Member> members = new BindingList<Member>();
-        public BusinessLogic(BindingList<Book> loadedBooks, BindingList<Member> loadedMembers)
+        BindingList<Loan> BorrowedBooks = new BindingList<Loan>();
+        public BusinessLogic(BindingList<Book> loadedBooks, BindingList<Member> loadedMembers, BindingList<Loan> loans)
         {
             books = loadedBooks;
             members = loadedMembers;
+            BorrowedBooks = loans;
         }
         public void deleteBook(int id)
         {
@@ -101,20 +103,33 @@ namespace Library_Management_App_v2.Service
             return searchResults;
         }
 
-        public void borrowBook(Book book)
+        public void borrowBook(int bookId, int memberId, Book book)
         {
-
-            if (book != null && !book.IsBorrowed)
+            try
             {
+                bool bookOut = BorrowedBooks.Any(b => b.BookId == bookId);
+
+                if (bookOut)
+                {
+                    MessageBox.Show("Book is already borrowed.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+                int id = BorrowedBooks.Count + 1;
+
+                BorrowedBooks.Add(new Loan(id, bookId, memberId, DateTime.Now, DateTime.Now.AddDays(14)));
                 book.IsBorrowed = true;
                 book.DateBorrowed = DateTime.Now;
                 book.DueDate = DateTime.Now.AddDays(14);
+
                 JSONStorage.SaveData(books, "books.json");
+                JSONStorage.SaveLoansData(BorrowedBooks, "loans.json");
             }
-            else
+            catch (Exception)
             {
-                MessageBox.Show("Book not found or already borrowed.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                throw new InvalidOperationException($"Borrow operation unsuccessfull");
             }
+
         }
 
         public void returnBook(Book book)
