@@ -15,6 +15,7 @@ namespace Library_Management_App_v2.Model
         public DateTime? DueDate { get; set; }
 
 
+
         public Loan(int id, int bookId, int memberId, DateTime? dateBorrowed, DateTime? dueDate)
         {
             Id = id;
@@ -22,6 +23,7 @@ namespace Library_Management_App_v2.Model
             MemberId = memberId;
             DateBorrowed = dateBorrowed;
             DueDate = dueDate;
+
         }
 
     }

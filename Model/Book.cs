@@ -14,26 +14,28 @@ namespace Library_Management_App_v2.Model
         public string Author { get; set; }
         public string Genre { get; set; }
         public string Description { get; set; }
-        public bool IsBorrowed { get; set; }
        public bool IsOverdue { get; set; } = false;
         public DateTime? DateBorrowed { get; set; }
         public DateTime? DueDate { get; set; }
         public DateTime? DateReturned { get; set; }
-        
-        
-        public Book(int id,string isbn, string title, string author, string genre, string desc, bool isBorrowed, bool isOverdue, DateTime? dateBorrowed, DateTime? dueDate,DateTime? dateReturned)
+        public int availableCopies { get; set; }
+        public int TotalCopies { get; set; }
+
+
+        public Book(int id,string isbn, string title, string author, string genre, string desc, bool isOverdue, DateTime? dateBorrowed, DateTime? dueDate,DateTime? dateReturned,int availCopies, int copies)
         {
             Id = id;
             ISBN = isbn;
             Title = title;
-            Author = author;
-            IsBorrowed = isBorrowed;
+            Author = author;     
             IsOverdue = isOverdue;
             Genre = genre;
             Description = desc;
             DateBorrowed = dateBorrowed;
             DueDate = dueDate;
             DateReturned = dateReturned;
+            availableCopies = availCopies;
+            TotalCopies = copies;
         }
     }
 }

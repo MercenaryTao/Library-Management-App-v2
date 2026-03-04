@@ -52,6 +52,7 @@ namespace Library_Management_App_v2
 
         private void BorrowBtn_Click(object sender, EventArgs e)
         {
+
             try
             {
                 if (bookDgv.SelectedRows.Count == 1 && memberView.SelectedRows.Count == 1)
@@ -61,29 +62,56 @@ namespace Library_Management_App_v2
 
                     Member selectedMember = (Member)memberView.SelectedRows[0].DataBoundItem;
                     int memberId = selectedMember.MemberId;
-
-                    businessLogic.borrowBook(bookId, memberId, selectedBook);
-                    MessageBox.Show($"Book '{selectedBook.Title}' has been borrowed by {selectedMember.Name} {selectedMember.Surname}");
+                    if (selectedMember.BorrowedBooksCount == 5)
+                    {
+                        MessageBox.Show("Borrowing limit reached for this member. Please return a book before borrowing another one.", "Borrowing Limit Reached", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
+                    }
+                    if (selectedBook.availableCopies == 0)
+                    {
+                        MessageBox.Show("No available copies of this book. Please try again later.", "Book Unavailable", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
+                    }
+                    MessageBox.Show($"Book '{selectedBook.Title}' has been successfully borrowed by {selectedMember.Name} {selectedMember.Surname}.", "Book Borrowed", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    businessLogic.borrowBook(selectedBook, selectedMember);
                 }
             }
-            catch (Exception m)
+            catch (Exception)
             {
-               
-          
+                throw;
             }
-            
+
             bookDgv.Refresh();
+            memberView.Refresh();
+
         }
 
         private void Returnbtn_Click(object sender, EventArgs e)
         {
-            if (bookDgv.SelectedRows.Count == 1)
-            {
-                Book selectedBook = (Book)bookDgv.SelectedRows[0].DataBoundItem;
-                businessLogic.returnBook(selectedBook);
-                
-            }
-            bookDgv.Refresh();
+            
+              if (bookDgv.SelectedRows.Count == 1)
+              {
+                  Book selectedBook = (Book)bookDgv.SelectedRows[0].DataBoundItem;
+                  Member selectedMember = (Member)memberView.SelectedRows[0].DataBoundItem;
+
+                  if (selectedMember.BorrowedBooksCount == 0 && selectedMember.BorrowedBooksCount <= 3)
+                  {
+                      MessageBox.Show("This member has no borrowed books to return.", "No Books to Return", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                      return;
+                  }
+                  if (selectedBook.TotalCopies == selectedBook.availableCopies)
+                  {
+                      MessageBox.Show("All books have been returned");
+                      return;
+                  }
+
+                  businessLogic.returnBook(selectedBook, selectedMember);
+                MessageBox.Show("Book successfully returned!", "Operation Success", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+              }
+              bookDgv.Refresh();
+              memberView.Refresh();
+
+
         }
 
         private void bookDgv_RowPrePaint(object sender, DataGridViewRowPrePaintEventArgs e)

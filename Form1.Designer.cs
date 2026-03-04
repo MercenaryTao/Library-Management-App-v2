@@ -48,10 +48,13 @@
             this.borrowMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.addNewMemberToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dataDisplay = new System.Windows.Forms.DataGridView();
+            this.numDial = new System.Windows.Forms.NumericUpDown();
+            this.label5 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataDisplay)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numDial)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -60,6 +63,8 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox1.BackColor = System.Drawing.Color.Transparent;
             this.groupBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.groupBox1.Controls.Add(this.label5);
+            this.groupBox1.Controls.Add(this.numDial);
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.isbnBx);
             this.groupBox1.Controls.Add(this.addBtn);
@@ -81,7 +86,7 @@
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(260, 85);
+            this.label4.Location = new System.Drawing.Point(260, 64);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(36, 13);
             this.label4.TabIndex = 10;
@@ -90,7 +95,7 @@
             // isbnBx
             // 
             this.isbnBx.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.isbnBx.Location = new System.Drawing.Point(263, 101);
+            this.isbnBx.Location = new System.Drawing.Point(263, 80);
             this.isbnBx.Name = "isbnBx";
             this.isbnBx.Size = new System.Drawing.Size(180, 35);
             this.isbnBx.TabIndex = 9;
@@ -98,7 +103,7 @@
             // 
             // addBtn
             // 
-            this.addBtn.Location = new System.Drawing.Point(62, 249);
+            this.addBtn.Location = new System.Drawing.Point(62, 285);
             this.addBtn.Name = "addBtn";
             this.addBtn.Size = new System.Drawing.Size(117, 50);
             this.addBtn.TabIndex = 8;
@@ -124,7 +129,7 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(10, 134);
+            this.label3.Location = new System.Drawing.Point(10, 170);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(71, 13);
             this.label3.TabIndex = 6;
@@ -162,7 +167,7 @@
             // descrBx
             // 
             this.descrBx.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.descrBx.Location = new System.Drawing.Point(62, 150);
+            this.descrBx.Location = new System.Drawing.Point(13, 186);
             this.descrBx.Name = "descrBx";
             this.descrBx.Size = new System.Drawing.Size(353, 79);
             this.descrBx.TabIndex = 2;
@@ -276,6 +281,23 @@
             this.dataDisplay.Size = new System.Drawing.Size(884, 32);
             this.dataDisplay.TabIndex = 4;
             // 
+            // numDial
+            // 
+            this.numDial.Location = new System.Drawing.Point(87, 127);
+            this.numDial.Name = "numDial";
+            this.numDial.Size = new System.Drawing.Size(45, 20);
+            this.numDial.TabIndex = 11;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.Location = new System.Drawing.Point(10, 129);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(71, 13);
+            this.label5.TabIndex = 12;
+            this.label5.Text = "Hardcopies";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -303,6 +325,7 @@
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataDisplay)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numDial)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -329,6 +352,8 @@
         private System.Windows.Forms.ToolStripMenuItem addNewMemberToolStripMenuItem;
         private System.Windows.Forms.DataGridView dataDisplay;
         private System.Windows.Forms.ComboBox srchCombo1;
+        private System.Windows.Forms.NumericUpDown numDial;
+        private System.Windows.Forms.Label label5;
     }
 }
 

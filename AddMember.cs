@@ -65,7 +65,7 @@ namespace Library_Management_App_v2
                     return;
                 }
                 IsValidEmail(email);
-                member = new Member(businessLogic.memberIdGen(), name, surname, email);
+                member = new Member(businessLogic.memberIdGen(), name, surname, email, 0);
                 businessLogic.addMember(member);
                 MessageBox.Show("Member added successfully.");
             }

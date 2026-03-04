@@ -58,8 +58,8 @@ namespace Library_Management_App_v2
             string author = authorBx.Text;
             var genre = "";
             string isbn = isbnBx.Text;
-
-
+            int totalCopies = numDial.Value > 0 ? (int)numDial.Value : 1;
+            int availCopies = totalCopies;
             string desc = descrBx.Text;
             DateTime? dateTime = null;
             DateTime? dueDate = null;
@@ -95,7 +95,7 @@ namespace Library_Management_App_v2
 
                 if (!string.IsNullOrEmpty(title) && !string.IsNullOrEmpty(author) && !string.IsNullOrEmpty(genre))
                 {
-                    Model.Book book = new Model.Book(id, isbn, title, author, genre, desc, false, false,dateTime, dueDate, dateReturned);
+                    Model.Book book = new Model.Book(id, isbn, title, author, genre, desc, false, dateTime, dueDate, dateReturned, availCopies,totalCopies);
                     businessLogic.addBook(book);
                 }
                 else

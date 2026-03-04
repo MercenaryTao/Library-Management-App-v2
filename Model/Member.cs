@@ -11,14 +11,15 @@ namespace Library_Management_App_v2.Model
        public int MemberId { get; set; }
        public string Name { get; set; }
         public string Surname { get; set; }
-
         public string Email { get; set; }
-        public Member(int memberId, string name, string surname, string email)
+        public int BorrowedBooksCount { get; set; }
+        public Member(int memberId, string name, string surname, string email, int bbCount)
         {
             MemberId = memberId;
             Name = name;
             Surname = surname;
             Email   = email;
+            BorrowedBooksCount = bbCount;
         }
 
     }

@@ -15,12 +15,12 @@ namespace Library_Management_App_v2.Service
         public JSONStorage JSONStorage = new JSONStorage();
         BindingList<Model.Book> books = new BindingList<Book>();
         BindingList<Model.Member> members = new BindingList<Member>();
-        BindingList<Loan> BorrowedBooks = new BindingList<Loan>();
-        public BusinessLogic(BindingList<Book> loadedBooks, BindingList<Member> loadedMembers, BindingList<Loan> loans)
+        BindingList<Loan> loans = new BindingList<Loan>();
+        public BusinessLogic(BindingList<Book> loadedBooks, BindingList<Member> loadedMembers, BindingList<Loan> loaned)
         {
             books = loadedBooks;
             members = loadedMembers;
-            BorrowedBooks = loans;
+            loans = loaned;
         }
         public void deleteBook(int id)
         {
@@ -38,9 +38,14 @@ namespace Library_Management_App_v2.Service
         }
         public void addBook(Model.Book book)
         {
-
             books.Add(book);
             JSONStorage.SaveData(books, "books.json");
+        }
+        public void addMember(Member member)
+        {
+
+            members.Add(member);
+            JSONStorage.SaveMembersData(members, "members.json");
         }
 
         public int idGen()
@@ -103,26 +108,37 @@ namespace Library_Management_App_v2.Service
             return searchResults;
         }
 
-        public void borrowBook(int bookId, int memberId, Book book)
+        public void borrowBook(Book book, Member member)
         {
+
             try
             {
-                bool bookOut = BorrowedBooks.Any(b => b.BookId == bookId);
 
-                if (bookOut)
+                if (member.BorrowedBooksCount >= 5)
                 {
-                    MessageBox.Show("Book is already borrowed.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
-                }
-                int id = BorrowedBooks.Count + 1;
+                    throw new InvalidOperationException("Member cannot borrow more than 5 books.");
 
-                BorrowedBooks.Add(new Loan(id, bookId, memberId, DateTime.Now, DateTime.Now.AddDays(14)));
-                book.IsBorrowed = true;
+                }
+                if (book.availableCopies <= 0)
+                {
+                    return;
+                    throw new InvalidOperationException("No available copies of the book.");
+                }
+                int id = loans.Any() ? loans.Max(l => l.Id) + 1 : 1;
+
+                loans.Add(new Loan(id, book.Id, member.MemberId, DateTime.Now, DateTime.Now.AddDays(14)));
+
                 book.DateBorrowed = DateTime.Now;
                 book.DueDate = DateTime.Now.AddDays(14);
+                book.availableCopies--;
+                member.BorrowedBooksCount++;
 
                 JSONStorage.SaveData(books, "books.json");
-                JSONStorage.SaveLoansData(BorrowedBooks, "loans.json");
+                JSONStorage.SaveMembersData(members, "members.json");
+                JSONStorage.SaveLoansData(loans, "loans.json");
+
+
             }
             catch (Exception)
             {
@@ -132,31 +148,37 @@ namespace Library_Management_App_v2.Service
 
         }
 
-        public void returnBook(Book book)
+        public void returnBook(Book book, Member member)
         {
-            var bookToReturn = books.FirstOrDefault(b => b == book);
-            if (bookToReturn != null && bookToReturn.IsBorrowed)
+            int memberId = member.MemberId;
+            var activeLoan = loans.FirstOrDefault(l => l.MemberId == memberId && l.BookId == book.Id);
+  
+            if (activeLoan == null)
             {
-                bookToReturn.IsBorrowed = false;
+                return;
+                throw new Exception("This member did not borrow this book.");
+                
+            }        
+
+            var bookToReturn = books.FirstOrDefault(b => b.Id == book.Id);
+            if (bookToReturn != null)
+            {
                 bookToReturn.IsOverdue = false;
                 bookToReturn.DateBorrowed = null;
                 bookToReturn.DueDate = null;
                 bookToReturn.DateReturned = DateTime.Now;
-                JSONStorage.SaveData(books, "books.json");
+                bookToReturn.availableCopies++;
+                member.BorrowedBooksCount--;
             }
-            else
-            {
-                MessageBox.Show("Book not found or not currently borrowed.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        public void addMember(Member member)
-        {
-
-            members.Add(member);
+            else { 
+                throw new Exception("Book not found in the system.");
+                }
+            JSONStorage.SaveData(books, "books.json");
+            JSONStorage.SaveLoansData(loans, "loans.json");
             JSONStorage.SaveMembersData(members, "members.json");
         }
 
+        
 
         public int memberIdGen()
         {
@@ -196,7 +218,7 @@ namespace Library_Management_App_v2.Service
         public bool isOverdue(Book book)
         {
             bool isOverdue = false;
-            if (book.IsBorrowed && book.DueDate < DateTime.Now)
+            if (book.DueDate < DateTime.Now)
             {
                book.IsOverdue = true;
                 isOverdue = true;
