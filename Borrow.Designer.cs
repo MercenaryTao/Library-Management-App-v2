@@ -133,6 +133,7 @@
             // memberView
             // 
             this.memberView.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.memberView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.memberView.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.memberView.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.Raised;
             this.memberView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;

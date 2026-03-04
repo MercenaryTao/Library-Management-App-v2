@@ -93,7 +93,7 @@ namespace Library_Management_App_v2
 
                 if (!string.IsNullOrEmpty(title) && !string.IsNullOrEmpty(author) && !string.IsNullOrEmpty(genre))
                 {
-                    Model.Book book = new Model.Book(id, isbn, title, author, genre, desc, false, dateTime, dueDate, dateReturned);
+                    Model.Book book = new Model.Book(id, isbn, title, author, genre, desc, false, false,dateTime, dueDate, dateReturned);
                     businessLogic.addBook(book);
                 }
                 else

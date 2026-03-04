@@ -123,6 +123,9 @@ namespace Library_Management_App_v2.Service
             if (bookToReturn != null && bookToReturn.IsBorrowed)
             {
                 bookToReturn.IsBorrowed = false;
+                bookToReturn.IsOverdue = false;
+                bookToReturn.DateBorrowed = null;
+                bookToReturn.DueDate = null;
                 bookToReturn.DateReturned = DateTime.Now;
                 JSONStorage.SaveData(books, "books.json");
             }
@@ -132,15 +135,6 @@ namespace Library_Management_App_v2.Service
             }
         }
 
-        public void overDueCheck()
-        {
-            var overdueBooks = books.Where(b => b.DueDate.HasValue && b.DueDate.Value < b.DateReturned).ToList();
-            if (overdueBooks.Count > 0)
-            {
-                string message = "Overdue Books:\n" + string.Join("\n", overdueBooks.Select(b => $"{b.Title} (Due: {b.DueDate.Value.ToShortDateString()})"));
-                MessageBox.Show(message, "Overdue Books", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            }
-        }
         public void addMember(Member member)
         {
 
@@ -183,6 +177,16 @@ namespace Library_Management_App_v2.Service
             {
                 MessageBox.Show("Member not found.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+        public bool isOverdue(Book book)
+        {
+            bool isOverdue = false;
+            if (book.IsBorrowed && book.DueDate < DateTime.Now)
+            {
+               book.IsOverdue = true;
+                isOverdue = true;
+            }
+            return isOverdue;
         }
     }
 }

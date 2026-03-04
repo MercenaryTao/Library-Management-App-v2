@@ -16,16 +16,18 @@ namespace Library_Management_App_v2
 {
     public partial class Borrow : Form
     {
+        JSONStorage storage = new JSONStorage();
         BusinessLogic businessLogic;
         BindingList<Model.Book> books = JSONStorage.books;
         BindingList<Model.Member> members = JSONStorage.members;
         public Borrow()
-        {
-            businessLogic = new BusinessLogic(books, members);
+        {            
             InitializeComponent();
-    bookDgv.DataSource = books;
+            members = storage.loadMembersData("members.json");
+            businessLogic = new BusinessLogic(books, members);
+            bookDgv.DataSource = books;
             memberView.DataSource = members;
-            businessLogic.overDueCheck();
+            //businessLogic.overDueCheck();
            
         }
 
@@ -49,11 +51,9 @@ namespace Library_Management_App_v2
         private void BorrowBtn_Click(object sender, EventArgs e)
         {
             if (bookDgv.SelectedRows.Count == 1)
-            {
-                // Get the actual Book object from the selected row
+            {       
                 Book selectedBook = (Book)bookDgv.SelectedRows[0].DataBoundItem;
-
-                // Now borrow that exact book
+                selectedBook.DateReturned = null;
                 businessLogic.borrowBook(selectedBook);
             }
             bookDgv.Refresh();
@@ -65,16 +65,22 @@ namespace Library_Management_App_v2
             {
                 Book selectedBook = (Book)bookDgv.SelectedRows[0].DataBoundItem;
                 businessLogic.returnBook(selectedBook);
+                
             }
             bookDgv.Refresh();
         }
 
         private void bookDgv_RowPrePaint(object sender, DataGridViewRowPrePaintEventArgs e)
         {
-            bool isOverdue = true;
-            if (isOverdue)
+
+            var row = bookDgv.Rows[e.RowIndex];
+            var book = row.DataBoundItem as Book;
+
+            if (businessLogic.isOverdue(book))
+            { row.DefaultCellStyle.BackColor = Color.Red; }
+            else
             {
-                
+                row.DefaultCellStyle.BackColor = Color.White;
             }
         }
     }
