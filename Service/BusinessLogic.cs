@@ -127,7 +127,7 @@ namespace Library_Management_App_v2.Service
                 }
                 int id = loans.Any() ? loans.Max(l => l.Id) + 1 : 1;
 
-                loans.Add(new Loan(id, book.Id, member.MemberId, DateTime.Now, DateTime.Now.AddDays(14)));
+                loans.Add(new Loan(id, book.Id, member.MemberId, DateTime.Now, DateTime.Now.AddDays(14), null));
 
                 book.DateBorrowed = DateTime.Now;
                 book.DueDate = DateTime.Now.AddDays(14);
@@ -152,7 +152,7 @@ namespace Library_Management_App_v2.Service
         {
             int memberId = member.MemberId;
             var activeLoan = loans.FirstOrDefault(l => l.MemberId == memberId && l.BookId == book.Id);
-  
+            activeLoan.ReturnDate = DateTime.Now;
             if (activeLoan == null)
             {
                 return;
