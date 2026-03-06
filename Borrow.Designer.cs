@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Borrow));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.srchParam = new System.Windows.Forms.RichTextBox();
             this.srchCombo2 = new System.Windows.Forms.ComboBox();
@@ -217,6 +218,7 @@
             this.ClientSize = new System.Drawing.Size(1104, 652);
             this.Controls.Add(this.splitContainer1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.ImeMode = System.Windows.Forms.ImeMode.KatakanaHalf;
             this.MaximizeBox = false;
             this.Name = "Borrow";
