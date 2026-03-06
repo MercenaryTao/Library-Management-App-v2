@@ -1,22 +1,38 @@
-﻿using System;
+﻿using Library_Management_App_v2.Model;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.IO;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
-using System.Runtime.Serialization;
-using Newtonsoft.Json;
-using System.ComponentModel;
-using Library_Management_App_v2.Model;
 using System.Windows.Forms;
 
 namespace Library_Management_App_v2.Controller
 {
     internal class JSONStorage
     {
+      
+        public static string bookFilePath = Path.Combine(
+     AppDomain.CurrentDomain.BaseDirectory,
+     "books.json"
+ );
+        public static string membersFilePath= Path.Combine(
+    AppDomain.CurrentDomain.BaseDirectory,
+    "members.json"
+);
+        public static string loansFilePath = Path.Combine(
+            AppDomain.CurrentDomain.BaseDirectory,
+            "loans.json"
+            );
+
         public static BindingList<Model.Book> books = new BindingList<Book>();
         public static BindingList<Model.Member> members = new BindingList<Member>();
         public static BindingList<Model.Loan> loans = new BindingList<Loan>();
 
+      
         public void SaveLoansData<T>(BindingList<T> data, string filePath)
         {
             try

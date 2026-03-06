@@ -36,20 +36,20 @@
             this.BorrowBtn = new System.Windows.Forms.Button();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.loanedDgv = new System.Windows.Forms.DataGridView();
             this.memberView = new System.Windows.Forms.DataGridView();
             this.bookDgv = new System.Windows.Forms.DataGridView();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.loanedDgv = new System.Windows.Forms.DataGridView();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
-            this.tabPage2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.loanedDgv)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.memberView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bookDgv)).BeginInit();
+            this.tabPage2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.loanedDgv)).BeginInit();
             this.SuspendLayout();
             // 
             // splitContainer1
@@ -162,28 +162,6 @@
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Loan Books";
             // 
-            // tabPage2
-            // 
-            this.tabPage2.BackgroundImage = global::Library_Management_App_v2.Properties.Resources.BookImages;
-            this.tabPage2.Controls.Add(this.loanedDgv);
-            this.tabPage2.Location = new System.Drawing.Point(4, 22);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(725, 626);
-            this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "Display Loaned Books";
-            this.tabPage2.UseVisualStyleBackColor = true;
-            // 
-            // loanedDgv
-            // 
-            this.loanedDgv.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.loanedDgv.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.loanedDgv.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.loanedDgv.Location = new System.Drawing.Point(3, 3);
-            this.loanedDgv.Name = "loanedDgv";
-            this.loanedDgv.Size = new System.Drawing.Size(719, 620);
-            this.loanedDgv.TabIndex = 0;
-            // 
             // memberView
             // 
             this.memberView.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
@@ -207,7 +185,29 @@
             this.bookDgv.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.bookDgv.Size = new System.Drawing.Size(730, 318);
             this.bookDgv.TabIndex = 0;
-            this.bookDgv.RowPrePaint += new System.Windows.Forms.DataGridViewRowPrePaintEventHandler(this.bookDgv_RowPrePaint);
+            // 
+            // tabPage2
+            // 
+            this.tabPage2.BackgroundImage = global::Library_Management_App_v2.Properties.Resources.BookImages;
+            this.tabPage2.Controls.Add(this.loanedDgv);
+            this.tabPage2.Location = new System.Drawing.Point(4, 22);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(725, 626);
+            this.tabPage2.TabIndex = 1;
+            this.tabPage2.Text = "Display Loaned Books";
+            this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // loanedDgv
+            // 
+            this.loanedDgv.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.loanedDgv.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.loanedDgv.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.loanedDgv.Location = new System.Drawing.Point(3, 3);
+            this.loanedDgv.Name = "loanedDgv";
+            this.loanedDgv.Size = new System.Drawing.Size(719, 620);
+            this.loanedDgv.TabIndex = 0;
+            this.loanedDgv.RowPrePaint += new System.Windows.Forms.DataGridViewRowPrePaintEventHandler(this.loanedDgv_RowPrePaint);
             // 
             // Borrow
             // 
@@ -230,10 +230,10 @@
             this.splitContainer1.ResumeLayout(false);
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
-            this.tabPage2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.loanedDgv)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.memberView)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.bookDgv)).EndInit();
+            this.tabPage2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.loanedDgv)).EndInit();
             this.ResumeLayout(false);
 
         }

@@ -15,14 +15,15 @@ namespace Library_Management_App_v2
 {
     public partial class Form1 : Form
     {
-        private string bookPath = @"C:\Users\sirlv\source\repos\Library Management App v2\bin\Debug\books.json";
         JSONStorage JSONStorage = new JSONStorage();
+        string bookPath = JSONStorage.bookFilePath;
+    
         BusinessLogic businessLogic;
 
         BindingList<Model.Book> books = JSONStorage.books;
         BindingList<Model.Member> members = JSONStorage.members;    
         BindingList<Model.Loan> loans = JSONStorage.loans;
-
+        List<string> genreList;
         public Form1()
         {
             InitializeComponent();
@@ -35,6 +36,10 @@ namespace Library_Management_App_v2
             businessLogic = new BusinessLogic(books, members, loans);
 
             dataDisplay.DataSource = books;
+ 
+            genreList = businessLogic.GetGenres();
+            genreCombo.DataSource = genreList;
+            genreCombo.DropDownStyle = ComboBoxStyle.DropDownList;
         }
 
         private void createCols()
@@ -56,16 +61,14 @@ namespace Library_Management_App_v2
             int id = businessLogic.idGen();
             string title = titleBx.Text;
             string author = authorBx.Text;
-            var genre = "";
+          var genre = genreCombo.SelectedItem;
             string isbn = isbnBx.Text;
             int totalCopies = numDial.Value > 0 ? (int)numDial.Value : 1;
             int availCopies = totalCopies;
             string desc = descrBx.Text;
-            DateTime? dateTime = null;
-            DateTime? dueDate = null;
-            DateTime? dateReturned = null;
+       
 
-            genreCombo.DropDownStyle = ComboBoxStyle.DropDownList;
+         
             
           
             //MessageBox.Show($"Genre selected: {genre}");
@@ -91,11 +94,13 @@ namespace Library_Management_App_v2
                     MessageBox.Show("Please select a genre.");
                     return;
                 }
-                genre = genreCombo.SelectedItem.ToString();
+              
 
-                if (!string.IsNullOrEmpty(title) && !string.IsNullOrEmpty(author) && !string.IsNullOrEmpty(genre))
+            
+
+                if (!string.IsNullOrEmpty(title) && !string.IsNullOrEmpty(author) && !string.IsNullOrEmpty(genre.ToString()))
                 {
-                    Model.Book book = new Model.Book(id, isbn, title, author, genre, desc, false, dateTime, dueDate, dateReturned, availCopies,totalCopies);
+                    Model.Book book = new Model.Book(id, isbn, title, author, genre.ToString(), desc, availCopies,totalCopies);
                     businessLogic.addBook(book);
                 }
                 else
@@ -167,6 +172,28 @@ namespace Library_Management_App_v2
         private void Form1_FormClosed(object sender, FormClosedEventArgs e)
         {
             Application.Exit();
+        }
+
+        private void updateBtn_Click(object sender, EventArgs e)
+        {
+            var selectedBook = dataDisplay.CurrentRow?.DataBoundItem as Model.Book;
+            int totalCopies = (int)numDial.Value;
+            MessageBox.Show($"Selected the book you want to edit and fill the above properties you wish to update\nPlease note that only a book's availble copies can be editted");
+            if (selectedBook != null)
+            {
+             businessLogic.updateBook(selectedBook, totalCopies);
+                MessageBox.Show($"Book with ID {selectedBook.Id} has been updated.");
+            }
+            else
+            {
+                MessageBox.Show("Select the book you wish to edit", "Incorrect Selection", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
+        }
+
+        private void dataDisplay_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        {
+            dataDisplay.CurrentCell = null;
+
         }
     }
 }

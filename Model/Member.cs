@@ -13,14 +13,22 @@ namespace Library_Management_App_v2.Model
         public string Surname { get; set; }
         public string Email { get; set; }
         public int BorrowedBooksCount { get; set; }
-        public Member(int memberId, string name, string surname, string email, int bbCount)
+        public DateTime? SuspensionEndDate { get; set; }
+        public Member(int memberId, string name, string surname, string email, int bbCount, DateTime? suspensionEndDate)
         {
             MemberId = memberId;
             Name = name;
             Surname = surname;
-            Email   = email;
+            Email = email;
             BorrowedBooksCount = bbCount;
+            SuspensionEndDate = suspensionEndDate;
         }
-
+        public bool IsSuspended
+        {
+            get
+            {
+                return SuspensionEndDate != null && SuspensionEndDate > DateTime.Now;
+            }
+        }
     }
 }

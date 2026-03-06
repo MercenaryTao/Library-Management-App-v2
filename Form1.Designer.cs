@@ -29,6 +29,8 @@
         private void InitializeComponent()
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.numDial = new System.Windows.Forms.NumericUpDown();
             this.label4 = new System.Windows.Forms.Label();
             this.isbnBx = new System.Windows.Forms.RichTextBox();
             this.addBtn = new System.Windows.Forms.Button();
@@ -48,13 +50,12 @@
             this.borrowMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.addNewMemberToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dataDisplay = new System.Windows.Forms.DataGridView();
-            this.numDial = new System.Windows.Forms.NumericUpDown();
-            this.label5 = new System.Windows.Forms.Label();
+            this.updateBtn = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numDial)).BeginInit();
             this.groupBox2.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataDisplay)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numDial)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -63,6 +64,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox1.BackColor = System.Drawing.Color.Transparent;
             this.groupBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.groupBox1.Controls.Add(this.updateBtn);
             this.groupBox1.Controls.Add(this.label5);
             this.groupBox1.Controls.Add(this.numDial);
             this.groupBox1.Controls.Add(this.label4);
@@ -81,6 +83,23 @@
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Add Books";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.Location = new System.Drawing.Point(10, 129);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(71, 13);
+            this.label5.TabIndex = 12;
+            this.label5.Text = "Hardcopies";
+            // 
+            // numDial
+            // 
+            this.numDial.Location = new System.Drawing.Point(87, 127);
+            this.numDial.Name = "numDial";
+            this.numDial.Size = new System.Drawing.Size(45, 20);
+            this.numDial.TabIndex = 11;
             // 
             // label4
             // 
@@ -114,11 +133,6 @@
             // genreCombo
             // 
             this.genreCombo.FormattingEnabled = true;
-            this.genreCombo.Items.AddRange(new object[] {
-            "Romance",
-            "Fantasy",
-            "Mystery & Thriller",
-            "Science Fiction"});
             this.genreCombo.Location = new System.Drawing.Point(304, 36);
             this.genreCombo.Name = "genreCombo";
             this.genreCombo.Size = new System.Drawing.Size(121, 21);
@@ -275,28 +289,26 @@
             this.dataDisplay.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.dataDisplay.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dataDisplay.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataDisplay.Location = new System.Drawing.Point(103, 447);
+            this.dataDisplay.MultiSelect = false;
             this.dataDisplay.Name = "dataDisplay";
+            this.dataDisplay.ReadOnly = true;
             this.dataDisplay.Size = new System.Drawing.Size(884, 32);
             this.dataDisplay.TabIndex = 4;
+            this.dataDisplay.TabStop = false;
+            this.dataDisplay.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.dataDisplay_DataBindingComplete);
             // 
-            // numDial
+            // updateBtn
             // 
-            this.numDial.Location = new System.Drawing.Point(87, 127);
-            this.numDial.Name = "numDial";
-            this.numDial.Size = new System.Drawing.Size(45, 20);
-            this.numDial.TabIndex = 11;
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(10, 129);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(71, 13);
-            this.label5.TabIndex = 12;
-            this.label5.Text = "Hardcopies";
+            this.updateBtn.Location = new System.Drawing.Point(221, 285);
+            this.updateBtn.Name = "updateBtn";
+            this.updateBtn.Size = new System.Drawing.Size(117, 50);
+            this.updateBtn.TabIndex = 13;
+            this.updateBtn.Text = "Update";
+            this.updateBtn.UseVisualStyleBackColor = true;
+            this.updateBtn.Click += new System.EventHandler(this.updateBtn_Click);
             // 
             // Form1
             // 
@@ -321,11 +333,11 @@
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form1_FormClosed);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numDial)).EndInit();
             this.groupBox2.ResumeLayout(false);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataDisplay)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numDial)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -354,6 +366,7 @@
         private System.Windows.Forms.ComboBox srchCombo1;
         private System.Windows.Forms.NumericUpDown numDial;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Button updateBtn;
     }
 }
 

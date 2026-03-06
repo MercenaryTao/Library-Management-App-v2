@@ -1,0 +1,37 @@
+[
+  {
+    "MemberId": 101,
+    "Name": "John",
+    "Surname": "Smith",
+    "Email": "john.smith@example.com",
+    "BorrowedBooksCount": 0
+  },
+  {
+    "MemberId": 102,
+    "Name": "Sarah",
+    "Surname": "Connor",
+    "Email": "s.connor@sky-net.io",
+    "BorrowedBooksCount": 0
+  },
+  {
+    "MemberId": 103,
+    "Name": "Michael",
+    "Surname": "Ross",
+    "Email": "m.ross@pearsonhardman.com",
+    "BorrowedBooksCount": 0
+  },
+  {
+    "MemberId": 104,
+    "Name": "Elena",
+    "Surname": "Rodriguez",
+    "Email": "elena.rod@webmail.com",
+    "BorrowedBooksCount": 0
+  },
+  {
+    "MemberId": 106,
+    "Name": "Donnnagene",
+    "Surname": "Ruiters",
+    "Email": "donnagenevaughan4@gmail.com",
+    "BorrowedBooksCount": 0
+  }
+]

@@ -62,6 +62,13 @@ namespace Library_Management_App_v2
 
                     Member selectedMember = (Member)memberView.SelectedRows[0].DataBoundItem;
                     int memberId = selectedMember.MemberId;
+                    businessLogic.CheckMemberPenalty(selectedMember);
+                    if (!businessLogic.CanBorrow(selectedMember))
+                    {
+                        MessageBox.Show($"Member is suspended until {selectedMember.SuspensionEndDate}");
+                        return;
+                    }
+
                     if (selectedMember.BorrowedBooksCount == 5)
                     {
                         MessageBox.Show("Borrowing limit reached for this member. Please return a book before borrowing another one.", "Borrowing Limit Reached", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -72,6 +79,7 @@ namespace Library_Management_App_v2
                         MessageBox.Show("No available copies of this book. Please try again later.", "Book Unavailable", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         return;
                     }
+
                     MessageBox.Show($"Book '{selectedBook.Title}' has been successfully borrowed by {selectedMember.Name} {selectedMember.Surname}.", "Book Borrowed", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     businessLogic.borrowBook(selectedBook, selectedMember);
                 }
@@ -104,7 +112,7 @@ namespace Library_Management_App_v2
                       MessageBox.Show("All books have been returned");
                       return;
                   }
-
+                businessLogic.CheckMemberPenalty(selectedMember);
                   businessLogic.returnBook(selectedBook, selectedMember);
                 MessageBox.Show("Book successfully returned!", "Operation Success", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
               }
@@ -114,23 +122,23 @@ namespace Library_Management_App_v2
 
         }
 
-        private void bookDgv_RowPrePaint(object sender, DataGridViewRowPrePaintEventArgs e)
+
+        private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
         {
+            loanedDgv.Refresh();
+        }
 
-            var row = bookDgv.Rows[e.RowIndex];
-            var book = row.DataBoundItem as Book;
+        private void loanedDgv_RowPrePaint(object sender, DataGridViewRowPrePaintEventArgs e)
+        {
+            var row = loanedDgv.Rows[e.RowIndex];
+            var book = row.DataBoundItem as Loan;
 
-            if (businessLogic.isOverdue(book))
+            if (businessLogic.IsOverdue(book))
             { row.DefaultCellStyle.BackColor = Color.Red; }
             else
             {
                 row.DefaultCellStyle.BackColor = Color.White;
             }
-        }
-
-        private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            loanedDgv.Refresh();
         }
     }
 }
