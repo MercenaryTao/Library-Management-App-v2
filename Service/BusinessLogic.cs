@@ -117,12 +117,12 @@ namespace Library_Management_App_v2.Service
 
                 if (member.BorrowedBooksCount >= 5)
                 {
-                    throw new InvalidOperationException("Member cannot borrow more than 5 books.");
+                    throw new Exception("Member cannot borrow more than 5 books.");
 
                 }
                 if (book.availableCopies <= 0)
                 { 
-                    throw new InvalidOperationException("No available copies of the book.");
+                    throw new Exception("No available copies of the book.");
                 }
                 if (member.IsSuspended)
                 {
@@ -144,7 +144,7 @@ namespace Library_Management_App_v2.Service
             }
             catch (Exception)
             {
-                return;
+                throw new Exception("An error occurred while trying to borrow the book. Please check the member's borrowing status and the book's availability.");
             }
 
         }
@@ -215,10 +215,6 @@ namespace Library_Management_App_v2.Service
             }
         }
     
-         public bool IsOverdue(Loan loan)
-        {
-            return !loan.IsReturned && loan.DueDate < DateTime.Now;
-        }
         
 
         public List<string> GetGenres()
@@ -247,12 +243,7 @@ namespace Library_Management_App_v2.Service
             }
             
         }
-        public int GetOverdueCount(int memberId)
-        {
-            return loans
-                .Where(l => l.MemberId == memberId && !l.IsReturned && l.DueDate < DateTime.Now)
-                .Count();
-        }
+   
 
         public void CheckMemberPenalty(Member member)
         {
@@ -263,8 +254,24 @@ namespace Library_Management_App_v2.Service
                 member.SuspensionEndDate = DateTime.Now.AddDays(7);
             }
         }
+
+        public int GetOverdueCount(int memberId)
+        {
+            return loans
+                .Where(l => l.MemberId == memberId && !l.IsReturned && l.DueDate < DateTime.Now)
+                .Count();
+        }
+
+        public bool IsOverdue(Loan loan)
+        {
+            return !loan.IsReturned && loan.DueDate < DateTime.Now;
+        }
+
         public bool CanBorrow(Member member)
         {
+            if (member == null)
+                return false;
+
             return !member.IsSuspended;
         }
     }

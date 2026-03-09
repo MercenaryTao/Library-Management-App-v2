@@ -27,6 +27,7 @@ namespace Library_Management_App_v2
         public Form1()
         {
             InitializeComponent();
+
             srchCombo1.DropDownStyle = ComboBoxStyle.DropDownList;
 
             JSONStorage.loadLoanData("loans.json");
