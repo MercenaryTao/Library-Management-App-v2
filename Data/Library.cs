@@ -1,13 +1,15 @@
-﻿using System;
+﻿using Library_Management_App_v2.Controller;
+using Library_Management_App_v2.Model;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Data.Common;
+using System.Data.SQLite;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Data.SQLite;
-using Library_Management_App_v2.Model;
-using System.Data;
-using System.Data.Common;
 
 
 
@@ -33,7 +35,7 @@ namespace Library_Management_App_v2.Data
                 tableCommand.CommandText = @"
         CREATE TABLE IF NOT EXISTS Books (
             BookId INTEGER PRIMARY KEY AUTOINCREMENT,
-            ISBN VARCHAR NOT NULL,
+            ISBN VARCHAR NOT NULL UNIQUE,
             Title VARCHAR NOT NULL,
             Author VARCHAR NOT NULL,      
             Genre VARCHAR NOT NULL,
@@ -112,6 +114,28 @@ VALUES (@ISBN, @Title, @Author, @Genre, @Description, @AvailableCopies, @TotalCo
             }
 
         }
+        public void DeleteBook(string ISBN)
+        {
+            try
+            {
+                connection.Open();
+                var command = new SQLiteCommand(connection);
+                command.CommandText = @"
+DELETE FROM Books
+WHERE ISBN = @ISBN
+";
+
+                command.Parameters.AddWithValue("@ISBN", ISBN);
+                command.ExecuteNonQuery();
+            }
+            finally
+            {
+                if (connection.State == ConnectionState.Open)
+                {
+                    connection.Close();
+                }
+            }
+        }
 
         public DataTable showAll()
         {
@@ -170,7 +194,7 @@ VALUES (@Name, @Surname, @Email, @BorrowedBooksCount, @SuspensionEndDate)
                 }
             }
         }
-        public void DeleteMember(Member member)
+        public void DeleteMember(int memberId)
         {
             try
             {
@@ -178,9 +202,10 @@ VALUES (@Name, @Surname, @Email, @BorrowedBooksCount, @SuspensionEndDate)
                 var command = new SQLiteCommand(connection);
                 command.CommandText = @"
 DELETE FROM Members
-WHERE MemberId = VALUE (@MemberId))
+WHERE MemberId = @MemberId
 ";
-                command.Parameters.AddWithValue("@MemberId", member.MemberId);
+
+                command.Parameters.AddWithValue("@MemberId", memberId);
                 command.ExecuteNonQuery();
             }
             finally
@@ -220,6 +245,53 @@ WHERE MemberId = VALUE (@MemberId))
                     connection.Close();
             }
             return dt;
+
+        }
+
+        public void loadtoDB(BindingList<Book> books)
+        {
+            try
+            {
+                connection.Open();
+
+                using (var transaction = connection.BeginTransaction())
+                {
+                    //var command = new SQLiteCommand( @"DELETE FROM Books", connection);
+
+                    var command = new SQLiteCommand(@"
+                    INSERT INTO Books (ISBN, Title, Author, Genre, Description, AvailableCopies, TotalCopies)
+                    VALUES (@ISBN, @Title, @Author, @Genre, @Description, @AvailableCopies, @TotalCopies)", connection);
+
+                    foreach (var item in books)
+                    {
+                        command.Parameters.Clear();
+
+                        command.Parameters.AddWithValue("@ISBN", item.ISBN);
+                        command.Parameters.AddWithValue("@Title", item.Title);
+                        command.Parameters.AddWithValue("@Author", item.Author);
+                        command.Parameters.AddWithValue("@Genre", item.Genre);
+                        command.Parameters.AddWithValue("@Description", item.Description);
+                        command.Parameters.AddWithValue("@AvailableCopies", item.availableCopies);
+                        command.Parameters.AddWithValue("@TotalCopies", item.TotalCopies);
+
+                        command.ExecuteNonQuery();
+                    }
+
+                    transaction.Commit(); 
+                }
+
+            }
+            catch (Exception m)
+            {
+
+                throw new Exception($"operation unsuccessful {m.Message}");
+            }
+            finally
+            {
+                if (connection.State == ConnectionState.Open)
+                    connection.Close();
+            }
+       
 
         }
     }

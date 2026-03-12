@@ -206,7 +206,7 @@ namespace Library_Management_App_v2.Service
             var memberToDelete = members.FirstOrDefault(m => m.MemberId == id);
             if (memberToDelete != null)
             {
-                library.DeleteMember(memberToDelete);
+                library.DeleteMember(id);
                 //members.Remove(memberToDelete);
                 //JSONStorage.SaveMembersData(members, "members.json");
             }

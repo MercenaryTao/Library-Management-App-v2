@@ -19,33 +19,34 @@ namespace Library_Management_App_v2
 {
     public partial class Form1 : Form
     {
-      
-               JSONStorage JSONStorage = new JSONStorage();
-        Library library = new Library();
+
+        JSONStorage JSONStorage = new JSONStorage();
         string bookPath = JSONStorage.bookFilePath;
-    
+
         BusinessLogic businessLogic;
+        Library library = new Library();
 
         BindingList<Model.Book> books = JSONStorage.books;
-        BindingList<Model.Member> members = JSONStorage.members;    
+        BindingList<Model.Member> members = JSONStorage.members;
         BindingList<Model.Loan> loans = JSONStorage.loans;
         List<string> genreList;
         public Form1()
         {
             InitializeComponent();
-
-            library.createDb();
             srchCombo1.DropDownStyle = ComboBoxStyle.DropDownList;
 
+            JSONStorage.loadLoanData("loans.json");
 
+            books = JSONStorage.loadData("books.json");
 
             businessLogic = new BusinessLogic(books, members, loans);
 
             dataDisplay.DataSource = library.showAll();
- 
+
             genreList = businessLogic.GetGenres();
             genreCombo.DataSource = genreList;
             genreCombo.DropDownStyle = ComboBoxStyle.DropDownList;
+      
         }
 
         private void createCols()
@@ -110,7 +111,7 @@ namespace Library_Management_App_v2
 
                     //businessLogic.addBook(book);
                     library.addBook(book);
-                    dataDisplay.DataSource = library.showAll();
+                    //dataDisplay.DataSource = library.showAll();
                     MessageBox.Show("Book added successfully");
                 }
                 else
@@ -132,13 +133,13 @@ namespace Library_Management_App_v2
         private void deleteBtn_Click(object sender, EventArgs e)
         {
             DialogResult dialogResult = MessageBox.Show("Are you sure you want to delete this entry? This process cannot be undone!", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-            var selectedBook = dataDisplay.CurrentRow?.DataBoundItem as Model.Book;
-            int id = selectedBook.Id;
-            if (selectedBook != null)
+           DataGridViewRow row = dataDisplay.SelectedRows[0];
+            string isbn = row.Cells["ISBN"].Value.ToString();
+            if (isbn != null)
             {
                 if (dialogResult == DialogResult.Yes)
                 {
-                    businessLogic.deleteBook(id);
+                    library.DeleteBook(isbn);
                 }
                 else
                 {
@@ -149,7 +150,7 @@ namespace Library_Management_App_v2
             {
                 MessageBox.Show("Please select a book to delete.");
             }
-            dataDisplay.Refresh();
+            dataDisplay.DataSource = library.showAll();
         }
 
         private void searchBtn_Click(object sender, EventArgs e)
@@ -208,6 +209,7 @@ namespace Library_Management_App_v2
 
         private void reloadBtn_Click(object sender, EventArgs e)
         {
+
             dataDisplay.DataSource = library.showAll();
         }
     }

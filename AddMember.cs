@@ -33,6 +33,9 @@ namespace Library_Management_App_v2
 
             //memberView.DataSource = members;
             memberView.DataSource = library.showMembers();
+
+         
+      
         }
 
         private void AddMember_FormClosed(object sender, FormClosedEventArgs e)
@@ -77,7 +80,7 @@ namespace Library_Management_App_v2
                 MessageBox.Show($"Operation unsuccessful.\n{m.Message}");
                 throw;
             }
-         
+            memberView.Refresh();
         }
 
         public bool IsValidEmail(string email)
@@ -100,30 +103,36 @@ namespace Library_Management_App_v2
             try
             {
                 DialogResult dialogResult = MessageBox.Show("Are you sure you want to delete this entry? This process cannot be undone!", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-                var selectedMember= memberView.CurrentRow?.DataBoundItem as Member;
-                int id = selectedMember.MemberId;
-                if (selectedMember!= null)
+
+                if (memberView.SelectedRows.Count == 1)
                 {
+                
+                    DataGridViewRow row = memberView.SelectedRows[0];
+
+                    int id = Convert.ToInt32(row.Cells["memberId"].Value);
+
                     if (dialogResult == DialogResult.Yes)
-                    {
-                        businessLogic.deleteMember(id);
-                    }
-                    else
-                    {
-                        return;
-                    }
+                        {
+                            library.DeleteMember(id);
+                        }
+                     else
+                        {
+                            return;
+                        }
                 }
                 else
                 {
                     MessageBox.Show("Please select a Member to delete.");
                 }
-                memberView.Refresh();
             }
+
             catch (Exception m)
             {
                 MessageBox.Show($"Operation unsuccessful.\n{m.Message}");
                 throw;
             }
+
+            memberView.DataSource = library.showMembers();
         }
     }
 }
