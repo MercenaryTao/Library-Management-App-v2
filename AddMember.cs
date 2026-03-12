@@ -11,6 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Net.Mail;
+using Library_Management_App_v2.Data;
 
 namespace Library_Management_App_v2
 {
@@ -22,14 +23,16 @@ namespace Library_Management_App_v2
         BindingList<Model.Book> books = JSONStorage.books;
         BindingList <Member> members = JSONStorage.members;
             BindingList<Loan> loans = JSONStorage.loans;
+        Library library = new Library();
         public AddMember()
         {
             InitializeComponent();
-            members = storage.loadMembersData("members.json");
+            //members = storage.loadMembersData("members.json");
 
             businessLogic = new BusinessLogic(books, members, loans);
-          
-            memberView.DataSource = members;
+
+            //memberView.DataSource = members;
+            memberView.DataSource = library.showMembers();
         }
 
         private void AddMember_FormClosed(object sender, FormClosedEventArgs e)
@@ -66,7 +69,7 @@ namespace Library_Management_App_v2
                 }
                 IsValidEmail(email);
                 member = new Member(businessLogic.memberIdGen(), name, surname, email, 0, null);
-                businessLogic.addMember(member);
+               library.AddMember(member);
                 MessageBox.Show("Member added successfully.");
             }
             catch (Exception m)

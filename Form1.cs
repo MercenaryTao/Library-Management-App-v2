@@ -1,21 +1,27 @@
 ﻿using Library_Management_App_v2.Controller;
+using Library_Management_App_v2.Data;
 using Library_Management_App_v2.Model;
 using Library_Management_App_v2.Service;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Data.SQLite;
+
 
 namespace Library_Management_App_v2
 {
     public partial class Form1 : Form
     {
-        JSONStorage JSONStorage = new JSONStorage();
+      
+               JSONStorage JSONStorage = new JSONStorage();
+        Library library = new Library();
         string bookPath = JSONStorage.bookFilePath;
     
         BusinessLogic businessLogic;
@@ -27,15 +33,15 @@ namespace Library_Management_App_v2
         public Form1()
         {
             InitializeComponent();
+
+            library.createDb();
             srchCombo1.DropDownStyle = ComboBoxStyle.DropDownList;
 
-            JSONStorage.loadLoanData("loans.json");
 
-            books = JSONStorage.loadData("books.json"); 
 
             businessLogic = new BusinessLogic(books, members, loans);
 
-            dataDisplay.DataSource = books;
+            dataDisplay.DataSource = library.showAll();
  
             genreList = businessLogic.GetGenres();
             genreCombo.DataSource = genreList;
@@ -101,7 +107,11 @@ namespace Library_Management_App_v2
                 if (!string.IsNullOrEmpty(title) && !string.IsNullOrEmpty(author) && !string.IsNullOrEmpty(genre.ToString()))
                 {
                     Model.Book book = new Model.Book(id, isbn, title, author, genre.ToString(), desc, availCopies,totalCopies);
-                    businessLogic.addBook(book);
+
+                    //businessLogic.addBook(book);
+                    library.addBook(book);
+                    dataDisplay.DataSource = library.showAll();
+                    MessageBox.Show("Book added successfully");
                 }
                 else
                 {
@@ -115,8 +125,8 @@ namespace Library_Management_App_v2
                 throw;
             }
 
-           dataDisplay.DataSource = null;
-            dataDisplay.DataSource = JSONStorage.loadData(bookPath);
+           //dataDisplay.DataSource = null;
+           // dataDisplay.DataSource = JSONStorage.loadData(bookPath);
         }
 
         private void deleteBtn_Click(object sender, EventArgs e)
@@ -194,6 +204,11 @@ namespace Library_Management_App_v2
         {
             dataDisplay.CurrentCell = null;
 
+        }
+
+        private void reloadBtn_Click(object sender, EventArgs e)
+        {
+            dataDisplay.DataSource = library.showAll();
         }
     }
 }

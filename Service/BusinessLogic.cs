@@ -1,4 +1,5 @@
 ﻿using Library_Management_App_v2.Controller;
+using Library_Management_App_v2.Data;
 using Library_Management_App_v2.Model;
 using System;
 using System.Collections.Generic;
@@ -12,6 +13,7 @@ namespace Library_Management_App_v2.Service
 {
     internal class BusinessLogic
     {
+        Library library = new Library();
         public JSONStorage JSONStorage = new JSONStorage();
         BindingList<Model.Book> books = new BindingList<Book>();
         BindingList<Model.Member> members = new BindingList<Member>();
@@ -39,12 +41,10 @@ namespace Library_Management_App_v2.Service
         }
         public void addBook(Model.Book book)
         {
-            books.Add(book);
-            JSONStorage.SaveData(books, "books.json");
+            library.addBook(book);            
         }
         public void addMember(Member member)
         {
-
             members.Add(member);
             JSONStorage.SaveMembersData(members, "members.json");
         }
@@ -206,8 +206,9 @@ namespace Library_Management_App_v2.Service
             var memberToDelete = members.FirstOrDefault(m => m.MemberId == id);
             if (memberToDelete != null)
             {
-                members.Remove(memberToDelete);
-                JSONStorage.SaveMembersData(members, "members.json");
+                library.DeleteMember(memberToDelete);
+                //members.Remove(memberToDelete);
+                //JSONStorage.SaveMembersData(members, "members.json");
             }
             else
             {
