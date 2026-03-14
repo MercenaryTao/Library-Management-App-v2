@@ -71,7 +71,7 @@ namespace Library_Management_App_v2
                     return;
                 }
                 IsValidEmail(email);
-                member = new Member(businessLogic.memberIdGen(), name, surname, email, 0, null);
+                member = new Member(name, surname, email, 0, null);
                library.AddMember(member);
                 MessageBox.Show("Member added successfully.");
             }
@@ -106,7 +106,6 @@ namespace Library_Management_App_v2
 
                 if (memberView.SelectedRows.Count == 1)
                 {
-                
                     DataGridViewRow row = memberView.SelectedRows[0];
 
                     int id = Convert.ToInt32(row.Cells["memberId"].Value);
@@ -125,7 +124,6 @@ namespace Library_Management_App_v2
                     MessageBox.Show("Please select a Member to delete.");
                 }
             }
-
             catch (Exception m)
             {
                 MessageBox.Show($"Operation unsuccessful.\n{m.Message}");

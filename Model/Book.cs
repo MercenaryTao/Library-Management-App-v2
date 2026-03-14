@@ -9,7 +9,7 @@ namespace Library_Management_App_v2.Model
     internal class Book
     {
         public string ISBN { get; set; }
-        public int Id { get; set; }
+        //public int Id { get; set; }
         public string Title { get; set; }
         public string Author { get; set; }
         public string Genre { get; set; }
@@ -18,9 +18,9 @@ namespace Library_Management_App_v2.Model
         public int TotalCopies { get; set; }
 
 
-        public Book(int id,string isbn, string title, string author, string genre, string desc, int availCopies, int copies)
+        public Book(string isbn, string title, string author, string genre, string desc, int availCopies, int copies)
         {
-            Id = id;
+            //Id = id;
             ISBN = isbn;
             Title = title;
             Author = author;      

@@ -1,10 +1,12 @@
 ﻿using Library_Management_App_v2.Controller;
+using Library_Management_App_v2.Data;
 using Library_Management_App_v2.Model;
 using Library_Management_App_v2.Service;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -21,6 +23,7 @@ namespace Library_Management_App_v2
         BindingList<Model.Book> books = JSONStorage.books;
         BindingList<Model.Member> members = JSONStorage.members;
         BindingList<Model.Loan> loans = JSONStorage.loans;
+        Library library = new Library(); 
         public Borrow()
         {            
             InitializeComponent();
@@ -45,7 +48,7 @@ namespace Library_Management_App_v2
             int searchItem = srchCombo2.SelectedIndex;
             string searchParam = srchParam.Text;
             
-            var results = businessLogic.SearchMethod(searchParam, searchItem);
+            var results = library.SearchBooks(searchParam, searchItem);
 
             bookDgv.DataSource = results;
         }
@@ -58,11 +61,11 @@ namespace Library_Management_App_v2
                 if (bookDgv.SelectedRows.Count == 1 && memberView.SelectedRows.Count == 1)
                 {
                     Book selectedBook = (Book)bookDgv.SelectedRows[0].DataBoundItem;
-                    int bookId = selectedBook.Id;
+                    //int bookId = selectedBook.Id;
 
                     Member selectedMember = (Member)memberView.SelectedRows[0].DataBoundItem;
-                    int memberId = selectedMember.MemberId;
-                    businessLogic.CheckMemberPenalty(selectedMember);
+
+                    //businessLogic.CheckMemberPenalty(selectedMember);
                     if (!businessLogic.CanBorrow(selectedMember))
                     {
                         MessageBox.Show($"Member is suspended until {selectedMember.SuspensionEndDate}");
@@ -112,8 +115,8 @@ namespace Library_Management_App_v2
                       MessageBox.Show("All books have been returned");
                       return;
                   }
-                businessLogic.CheckMemberPenalty(selectedMember);
-                  businessLogic.returnBook(selectedBook, selectedMember);
+                //businessLogic.CheckMemberPenalty(selectedMember);
+                //  businessLogic.returnBook(selectedBook, selectedMember);
                 MessageBox.Show("Book successfully returned!", "Operation Success", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
               }
               bookDgv.Refresh();
@@ -130,15 +133,15 @@ namespace Library_Management_App_v2
 
         private void loanedDgv_RowPrePaint(object sender, DataGridViewRowPrePaintEventArgs e)
         {
-            var row = loanedDgv.Rows[e.RowIndex];
-            var book = row.DataBoundItem as Loan;
+            //var row = loanedDgv.Rows[e.RowIndex];
+            //var book = row.DataBoundItem as Loan;
 
-            if (businessLogic.IsOverdue(book))
-            { row.DefaultCellStyle.BackColor = Color.Red; }
-            else
-            {
-                row.DefaultCellStyle.BackColor = Color.White;
-            }
+            //if (businessLogic.IsOverdue(book))
+            //{ row.DefaultCellStyle.BackColor = Color.Red; }
+            //else
+            //{
+            //    row.DefaultCellStyle.BackColor = Color.White;
+            //}
         }
     }
 }

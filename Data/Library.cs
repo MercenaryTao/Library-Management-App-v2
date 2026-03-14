@@ -1,15 +1,9 @@
-﻿using Library_Management_App_v2.Controller;
-using Library_Management_App_v2.Model;
+﻿using Library_Management_App_v2.Model;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
-using System.Data.Common;
 using System.Data.SQLite;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+using System.Security.Policy;
 
 
 
@@ -27,12 +21,12 @@ namespace Library_Management_App_v2.Data
         public void createDb()
         {
 
-           
+
             connection.Open();
 
             var tableCommand = new SQLiteCommand(connection);
-            
-                tableCommand.CommandText = @"
+
+            tableCommand.CommandText = @"
         CREATE TABLE IF NOT EXISTS Books (
             BookId INTEGER PRIMARY KEY AUTOINCREMENT,
             ISBN VARCHAR NOT NULL UNIQUE,
@@ -43,12 +37,12 @@ namespace Library_Management_App_v2.Data
             AvailableCopies INTEGER NOT NULL,
             TotalCopies INTEGER NOT NULL
         );";
-                tableCommand.ExecuteNonQuery();
+            tableCommand.ExecuteNonQuery();
 
 
-                // 2️⃣ Members table
-                var memberCommand = new SQLiteCommand(connection);            
-                memberCommand.CommandText = @"
+            // 2️⃣ Members table
+            var memberCommand = new SQLiteCommand(connection);
+            memberCommand.CommandText = @"
         CREATE TABLE IF NOT EXISTS Members (
             MemberId INTEGER PRIMARY KEY AUTOINCREMENT,
             Name VARCHAR NOT NULL,
@@ -57,7 +51,7 @@ namespace Library_Management_App_v2.Data
             BorrowedBooksCount INTEGER DEFAULT 0,
             SuspensionEndDate DATETIME
         );";
-                memberCommand.ExecuteNonQuery();
+            memberCommand.ExecuteNonQuery();
 
 
             // 3️⃣ Loan table
@@ -74,8 +68,8 @@ namespace Library_Management_App_v2.Data
             FOREIGN KEY(BookId) REFERENCES Books(Id),
             FOREIGN KEY(MemberId) REFERENCES Members(MemberId)
         );";
-                loanCommand.ExecuteNonQuery();
-            
+            loanCommand.ExecuteNonQuery();
+
 
             connection.Close();
             Console.WriteLine("Tables created successfully!");
@@ -85,22 +79,21 @@ namespace Library_Management_App_v2.Data
         {
             try
             {
-               
-                    connection.Open();
+
+                connection.Open();
                 var command = new SQLiteCommand(connection);
-                        command.CommandText = @"
+                command.CommandText = @"
 INSERT INTO Books (ISBN, Title, Author, Genre, Description, AvailableCopies, TotalCopies)
 VALUES (@ISBN, @Title, @Author, @Genre, @Description, @AvailableCopies, @TotalCopies)";
-                    //command.Parameters.AddWithValue("@BookId", book.Id);
-                    command.Parameters.AddWithValue("@ISBN", book.ISBN);
-                    command.Parameters.AddWithValue("@Title", book.Title);
-                    command.Parameters.AddWithValue("@Author", book.Author);
-                    command.Parameters.AddWithValue("@Genre", book.Genre);
-                    command.Parameters.AddWithValue("@Description", book.Description);
-                    command.Parameters.AddWithValue("@AvailableCopies", book.availableCopies);
-                    command.Parameters.AddWithValue("@TotalCopies", book.TotalCopies);
-                    command.ExecuteNonQuery();
-            
+                command.Parameters.AddWithValue("@ISBN", book.ISBN);
+                command.Parameters.AddWithValue("@Title", book.Title);
+                command.Parameters.AddWithValue("@Author", book.Author);
+                command.Parameters.AddWithValue("@Genre", book.Genre);
+                command.Parameters.AddWithValue("@Description", book.Description);
+                command.Parameters.AddWithValue("@AvailableCopies", book.availableCopies);
+                command.Parameters.AddWithValue("@TotalCopies", book.TotalCopies);
+                command.ExecuteNonQuery();
+
             }
             catch (Exception m)
             {
@@ -142,18 +135,18 @@ WHERE ISBN = @ISBN
             DataTable dt = new DataTable();
             try
             {
-               
-                    connection.Open();
-                 
-                        string qry = $@"
+
+                connection.Open();
+
+                string qry = $@"
                         SELECT * FROM Books";
 
-                        var newCommand = new SQLiteCommand(qry, connection);
+                var newCommand = new SQLiteCommand(qry, connection);
 
-                        SQLiteDataAdapter da = new SQLiteDataAdapter(newCommand);
-                      
-                        da.Fill(dt);
-         
+                SQLiteDataAdapter da = new SQLiteDataAdapter(newCommand);
+
+                da.Fill(dt);
+
             }
             catch (Exception m)
             {
@@ -167,6 +160,70 @@ WHERE ISBN = @ISBN
             }
             return dt;
 
+        }
+
+        public DataTable SearchBooks(string srchPar, int sel)
+        {
+            DataTable dt = new DataTable();
+      
+            try
+            {
+                connection.Open();
+                switch (sel)
+                {
+                    case 0:
+                        var qry1 = new SQLiteCommand(@"
+                                        SELECT * FROM Books
+                                        WHERE Id LIKE @srchPar
+
+                        ", connection);
+
+                        qry1.Parameters.AddWithValue("@srchPar", $"%{srchPar}%");
+                        SQLiteDataAdapter da1 = new SQLiteDataAdapter(qry1);
+                        da1.Fill(dt);
+                        break;
+                    case 1:
+                        var qry2 = new SQLiteCommand(@"
+                SELECT * FROM Books
+                WHERE Title LIKE @srchPar
+", connection);
+                        qry2.Parameters.AddWithValue("@srchPar", $"%{srchPar}%");
+                        SQLiteDataAdapter da2 = new SQLiteDataAdapter(qry2);
+                        da2.Fill(dt);
+                        break; 
+                    case 2:
+                        var qry3 = new SQLiteCommand(@"
+                SELECT * FROM Books
+                WHERE Author LIKE @srchPar
+", connection);
+                        qry3.Parameters.AddWithValue("@srchPar", $"%{srchPar}%");
+                        SQLiteDataAdapter da3 = new SQLiteDataAdapter(qry3);
+                        da3.Fill(dt);
+                        break;
+                    case 3:
+                        var qry4 = new SQLiteCommand(@"
+                SELECT * FROM Books
+                WHERE Genre LIKE @srchPar
+", connection);
+                        qry4.Parameters.AddWithValue("@srchPar", $"%{srchPar}%");
+                        SQLiteDataAdapter da4 = new SQLiteDataAdapter(qry4);
+                        da4.Fill(dt);
+                        break;
+                    default:
+                        break;
+             
+                }
+                return dt;
+            }
+            catch (Exception m)
+            {
+                throw new Exception($"operation unsuccessful {m.Message}");
+            }
+            finally
+            {
+                if (connection.State == ConnectionState.Open)
+                    connection.Close();
+            }
         }
 
         public void AddMember(Member member)
@@ -277,7 +334,7 @@ WHERE MemberId = @MemberId
                         command.ExecuteNonQuery();
                     }
 
-                    transaction.Commit(); 
+                    transaction.Commit();
                 }
 
             }
@@ -291,8 +348,10 @@ WHERE MemberId = @MemberId
                 if (connection.State == ConnectionState.Open)
                     connection.Close();
             }
-       
+
 
         }
+
+
     }
 }

@@ -307,6 +307,7 @@
             this.dataDisplay.MultiSelect = false;
             this.dataDisplay.Name = "dataDisplay";
             this.dataDisplay.ReadOnly = true;
+            this.dataDisplay.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataDisplay.Size = new System.Drawing.Size(884, 32);
             this.dataDisplay.TabIndex = 4;
             this.dataDisplay.TabStop = false;
