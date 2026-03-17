@@ -131,6 +131,7 @@ namespace Library_Management_App_v2
             }
 
             memberView.DataSource = library.showMembers();
+          
         }
     }
 }

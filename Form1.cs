@@ -22,7 +22,7 @@ namespace Library_Management_App_v2
 
         //BusinessLogic businessLogic;
         Library library = new Library();
-
+        //JSONStorage storage = new JSONStorage();
         //BindingList<Model.Book> books = JSONStorage.books;
         //BindingList<Model.Member> members = JSONStorage.members;
         //BindingList<Model.Loan> loans = JSONStorage.loans;
@@ -31,20 +31,21 @@ namespace Library_Management_App_v2
         public Form1()
         {
             InitializeComponent();
+            library.createDb();
             srchCombo1.DropDownStyle = ComboBoxStyle.DropDownList;
 
             //JSONStorage.loadLoanData("loans.json");
 
-            //books = JSONStorage.loadData("books.json");
+            //books = storage.loadData("books.json");
 
             //businessLogic = new BusinessLogic(books, members, loans);
 
             dataDisplay.DataSource = library.showAll();
-
+            //library.loadtoDB();
             genreList = GetGenres();
             genreCombo.DataSource = GetGenres();
             genreCombo.DropDownStyle = ComboBoxStyle.DropDownList;
-      
+            library.yes();
         }
 
         private void createCols()
@@ -158,9 +159,7 @@ namespace Library_Management_App_v2
                 MessageBox.Show("Please select a search option and enter a value.");
                 return;
             }
- // DEBUG
 
-      
             var results1 = library.SearchBooks(searchParam, searchItem);
             
             dataDisplay.DataSource = results1;
@@ -211,7 +210,7 @@ namespace Library_Management_App_v2
 
         private void reloadBtn_Click(object sender, EventArgs e)
         {
-
+            //library.loadtoDB(books);
             dataDisplay.DataSource = library.showAll();
         }
         public List<string> GetGenres()

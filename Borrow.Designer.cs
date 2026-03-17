@@ -41,6 +41,7 @@
             this.bookDgv = new System.Windows.Forms.DataGridView();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.loanedDgv = new System.Windows.Forms.DataGridView();
+            this.button1 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -64,6 +65,7 @@
             this.splitContainer1.Panel1.BackColor = System.Drawing.Color.Silver;
             this.splitContainer1.Panel1.BackgroundImage = global::Library_Management_App_v2.Properties.Resources.BookImages;
             this.splitContainer1.Panel1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.splitContainer1.Panel1.Controls.Add(this.button1);
             this.splitContainer1.Panel1.Controls.Add(this.srchParam);
             this.splitContainer1.Panel1.Controls.Add(this.srchCombo2);
             this.splitContainer1.Panel1.Controls.Add(this.searchBtn2);
@@ -211,6 +213,16 @@
             this.loanedDgv.TabIndex = 0;
             this.loanedDgv.RowPrePaint += new System.Windows.Forms.DataGridViewRowPrePaintEventHandler(this.loanedDgv_RowPrePaint);
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(272, 424);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 8;
+            this.button1.Text = "button1";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // Borrow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -255,5 +267,6 @@
         private System.Windows.Forms.DataGridView loanedDgv;
         private System.Windows.Forms.DataGridView memberView;
         private System.Windows.Forms.DataGridView bookDgv;
+        private System.Windows.Forms.Button button1;
     }
 }
