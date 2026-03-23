@@ -1,4 +1,5 @@
-﻿using Library_Management_App_v2.Model;
+﻿using Library_Management_App_v2.Controller;
+using Library_Management_App_v2.Model;
 using System;
 using System.ComponentModel;
 using System.Data;
@@ -48,7 +49,7 @@ namespace Library_Management_App_v2.Data
         public void createDb()
         {
             connection.Open();
-
+        
             var tableCommand = new SQLiteCommand(connection);
 
             tableCommand.CommandText = @"
@@ -532,42 +533,44 @@ WHERE MemberId = @MemberId
 
         }
 
-
-        public void loadtoDB()
+        public void loadtoDB(BindingList<Model.Book> books)
         {
-            //BindingList<Book> books
+           
             try
             {
                 connection.Open();
-                var command = new SQLiteCommand(@"DROP TABLE Loans", connection);
+                var clearBooks = new SQLiteCommand("DELETE FROM Books", connection);
+                clearBooks.ExecuteNonQuery();
+                //var command = new SQLiteCommand(@"DROP TABLE Loans", connection); command.ExecuteNonQuery();
+                //var command1 = new SQLiteCommand(@"DROP TABLE Books", conn); command1.ExecuteNonQuery();
 
-                command.ExecuteNonQuery();
-                //using (var transaction = connection.BeginTransaction())
-                //{
-         
-                //    //var command = new SQLiteCommand( @"DROP TABLE Books", connection);
+                //command.ExecuteNonQuery();
+                using (var transaction = connection.BeginTransaction())
+                {
 
-                //    //var command = new SQLiteCommand(@"
-                //    //INSERT INTO Books (ISBN, Title, Author, Genre, Description, AvailableCopies, TotalCopies)
-                //    //VALUES (@ISBN, @Title, @Author, @Genre, @Description, @AvailableCopies, @TotalCopies)", connection, transaction);
+                    //var command = new SQLiteCommand(@"DROP TABLE Books", connection);
 
-                //    //foreach (var item in books)
-                //    //{
-                //    //    command.Parameters.Clear();
+                    var command = new SQLiteCommand(@"
+                    INSERT INTO Books (ISBN, Title, Author, Genre, Description, AvailableCopies, TotalCopies)
+                    VALUES (@ISBN, @Title, @Author, @Genre, @Description, @AvailableCopies, @TotalCopies)", connection, transaction);
 
-                //    //    command.Parameters.AddWithValue("@ISBN", item.ISBN);
-                //    //    command.Parameters.AddWithValue("@Title", item.Title);
-                //    //    command.Parameters.AddWithValue("@Author", item.Author);
-                //    //    command.Parameters.AddWithValue("@Genre", item.Genre);
-                //    //    command.Parameters.AddWithValue("@Description", item.Description);
-                //    //    command.Parameters.AddWithValue("@AvailableCopies", item.availableCopies);
-                //    //    command.Parameters.AddWithValue("@TotalCopies", item.TotalCopies);
+                    foreach (var item in books)
+                    {
+                        command.Parameters.Clear();
 
-                //    //    command.ExecuteNonQuery();
-                //    //}
-                   
-                //    //transaction.Commit();
-                //}
+                        command.Parameters.AddWithValue("@ISBN", item.ISBN);
+                        command.Parameters.AddWithValue("@Title", item.Title);
+                        command.Parameters.AddWithValue("@Author", item.Author);
+                        command.Parameters.AddWithValue("@Genre", item.Genre);
+                        command.Parameters.AddWithValue("@Description", item.Description);
+                        command.Parameters.AddWithValue("@AvailableCopies", item.availableCopies);
+                        command.Parameters.AddWithValue("@TotalCopies", item.TotalCopies);
+
+                        command.ExecuteNonQuery();
+                    }
+
+                    transaction.Commit();
+                }
 
             }
             catch (Exception m)

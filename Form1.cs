@@ -20,18 +20,18 @@ namespace Library_Management_App_v2
     public partial class Form1 : Form
     {
 
-        //BusinessLogic businessLogic;
+        BusinessLogic businessLogic;
         Library library = new Library();
-        //JSONStorage storage = new JSONStorage();
-        //BindingList<Model.Book> books = JSONStorage.books;
-        //BindingList<Model.Member> members = JSONStorage.members;
-        //BindingList<Model.Loan> loans = JSONStorage.loans;
+        JSONStorage storage = new JSONStorage();
+        BindingList<Model.Book> books = JSONStorage.books;
+
         List<string> allGenres = new List<string>();
         List<string> genreList;
         public Form1()
         {
             InitializeComponent();
             library.createDb();
+            //library.loadtoDB();
             srchCombo1.DropDownStyle = ComboBoxStyle.DropDownList;
 
             //JSONStorage.loadLoanData("loans.json");
@@ -41,7 +41,7 @@ namespace Library_Management_App_v2
             //businessLogic = new BusinessLogic(books, members, loans);
 
             dataDisplay.DataSource = library.showAll();
-            //library.loadtoDB();
+            //library.loadtoDB(books);
             genreList = GetGenres();
             genreCombo.DataSource = GetGenres();
             genreCombo.DropDownStyle = ComboBoxStyle.DropDownList;
