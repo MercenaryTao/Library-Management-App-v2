@@ -17,7 +17,7 @@ namespace Library_Management_App_v2
 {
     public partial class AddMember : Form
     { 
-        BusinessLogic businessLogic;
+   
         JSONStorage storage = new JSONStorage();
         Member member;
         BindingList<Model.Book> books = JSONStorage.books;
@@ -29,7 +29,7 @@ namespace Library_Management_App_v2
             InitializeComponent();
             //members = storage.loadMembersData("members.json");
 
-            businessLogic = new BusinessLogic(books, members, loans);
+            //businessLogic = new BusinessLogic(books, members, loans);
 
             //memberView.DataSource = members;
             memberView.DataSource = library.showMembers();

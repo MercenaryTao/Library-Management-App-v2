@@ -30,22 +30,23 @@ namespace Library_Management_App_v2
         public Form1()
         {
             InitializeComponent();
-            library.createDb();
-            //library.loadtoDB();
+      
+            library.createTables();     
             srchCombo1.DropDownStyle = ComboBoxStyle.DropDownList;
 
-            //JSONStorage.loadLoanData("loans.json");
 
-            //books = storage.loadData("books.json");
-
-            //businessLogic = new BusinessLogic(books, members, loans);
-
-            dataDisplay.DataSource = library.showAll();
+            books = storage.loadData("books.json");
             //library.loadtoDB(books);
+            dataDisplay.DataSource = library.showAll();
+
+           
+
             genreList = GetGenres();
             genreCombo.DataSource = GetGenres();
             genreCombo.DropDownStyle = ComboBoxStyle.DropDownList;
             library.yes();
+        
+
         }
 
         private void createCols()

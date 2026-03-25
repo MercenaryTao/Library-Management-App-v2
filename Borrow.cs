@@ -63,83 +63,75 @@ namespace Library_Management_App_v2
             try
             {
                 if (bookDgv.SelectedRows.Count == 1 && memberView.SelectedRows.Count == 1)
+            {
+
+                var bookRow = bookDgv.SelectedRows[0];
+
+                if (bookRow != null)
                 {
-                    //Book selectedBook = (Book)bookDgv.SelectedRows[0].DataBoundItem;
-                    ////int bookId = selectedBook.Id;
+                    bookId = Convert.ToInt32(bookRow.Cells["BookId"].Value);
+                }
+                else
+                {
+                    MessageBox.Show("Select a book to borrow");
+                    return;
+                }
 
-                    //Member selectedMember = (Member)memberView.SelectedRows[0].DataBoundItem;
+                var memberRow = memberView.SelectedRows[0];
+                if (memberRow != null)
+                {
+                    memberId = Convert.ToInt32(memberRow.Cells["MemberId"].Value);
+                }
+                else
+                {
+                    MessageBox.Show("Select a Member to borrow to");
+                    return;
+                }
 
-                    ////businessLogic.CheckMemberPenalty(selectedMember);
-                    //if (!businessLogic.CanBorrow(selectedMember))
-                    //{
-                    //    MessageBox.Show($"Member is suspended until {selectedMember.SuspensionEndDate}");
-                    //    return;
-                    //}
 
-                    //if (selectedMember.BorrowedBooksCount == 5)
-                    //{
-                    //    MessageBox.Show("Borrowing limit reached for this member. Please return a book before borrowing another one.", "Borrowing Limit Reached", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    //    return;
-                    //}
-                    //if (selectedBook.availableCopies == 0)
-                    //{
-                    //    MessageBox.Show("No available copies of this book. Please try again later.", "Book Unavailable", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    //    return;
-                    //}
 
-                    var bookRow = bookDgv.SelectedRows[0];
-                  
-                    if (bookRow != null)
+                    bool hasBeenBorrowed = library.ExistingBorrow(bookId, memberId);
+                    bool booksAvailable = library.checkBookAvailability(bookId);
+                    if (hasBeenBorrowed)
                     {
-                        bookId = Convert.ToInt32(bookRow.Cells["BookId"].Value);
+                        MessageBox.Show("Member cannot borrow books of the same type"); return;
                     }
-                    else
-                    {
-                        MessageBox.Show("Select a book to borrow");
-                        return;
-                    }
-
-                        var memberRow = memberView.SelectedRows[0];
-                    if (memberRow != null)
-                    {
-                       memberId = Convert.ToInt32(memberRow.Cells["MemberId"].Value);
-                    }
-                    else
-                    {
-                        MessageBox.Show("Select a Member to borrow to");
-                        return;
-                    }
-                   
-                    if (library.checkMemberBorrowedCount(bookId, memberId))
-                    {
-                        MessageBox.Show("Member Has Exceed Total Number of Loans", "Loan Exeeded", MessageBoxButtons.OK);
-                        return;
-                    }
-                    library.checkMemberBorrowedCount(bookId, memberId);
-
-                    if (library.checkBookAvailability())
+                    if (!booksAvailable)
                     {
                         MessageBox.Show("There Are No More Available Copies");
                         return;
                     }
-                    bool booksOverdue = library.Suspension();
-                    if (booksOverdue)
-                    {
-                        MessageBox.Show("Member under suspension", "Suspension", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        return;
-                    }
-                 
-                    library.checkBookAvailability();
 
-                    library.LoanBook(bookId, memberId);
+                    bool booksOverdue = library.Suspension();
+                if (booksOverdue)
+                {
+                    MessageBox.Show("Member under suspension", "Suspension", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
+                }
+
+           
+                    bool operationResult = library.LoanBook(bookId, memberId);
+
+                if (operationResult)
+                {
+       
+                        MessageBox.Show("Book successcully loaned", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    MessageBox.Show("Member has reached loan limit", "Loan Failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
                 }
             }
-            catch (Exception ne)
-            {
-                MessageBox.Show("Operation unsuccessful \n" + ne.Message, "Error",MessageBoxButtons.OK , MessageBoxIcon.Exclamation);
+        }   
+        catch (Exception ne)
+        {
+                MessageBox.Show("Operation unsuccessful \n" + ne.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                //throw new Exception(ne.Message);
             }
+            
 
-         
+
             bookDgv.DataSource = null;
             bookDgv.DataSource = library.showAll();
 
@@ -175,8 +167,7 @@ namespace Library_Management_App_v2
                     MessageBox.Show("Select a Member to borrow to");
                     return;
                 }
-                //businessLogic.CheckMemberPenalty(selectedMember);
-                //  businessLogic.returnBook(selectedBook, selectedMember);
+         
                 bool hasBeenBorrowedByMember = library.returnLoaned(bookId, memberId);
                 if (!hasBeenBorrowedByMember)
                 {
@@ -184,7 +175,7 @@ namespace Library_Management_App_v2
                     return;
                 }
 
-                MessageBox.Show("Book successfully returned!", "Operation Success", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                MessageBox.Show("Book successfully returned!", "Operation Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
               }
 
             bookDgv.DataSource = null;
