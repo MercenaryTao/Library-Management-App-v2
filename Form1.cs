@@ -44,7 +44,7 @@ namespace Library_Management_App_v2
             genreCombo.DropDownStyle = ComboBoxStyle.DropDownList;
             library.yes();
 
-            MessageBox.Show("App started");
+            MessageBox.Show("Welcome To The library Management App!");
         }
 
         private void addBtn_Click(object sender, EventArgs e)
