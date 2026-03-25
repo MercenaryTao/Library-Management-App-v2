@@ -19,8 +19,13 @@ namespace Library_Management_App_v2.Data
 {
     internal class Library
     {
-  
-        private SQLiteConnection conn = new SQLiteConnection($"Data Source=LibraryAppDB.sqlite;Version=3;");
+        static string dbPath = Path.Combine(
+          AppDomain.CurrentDomain.BaseDirectory,
+          "LibraryAppDB.sqlite"
+      );
+
+    
+        private SQLiteConnection conn = new SQLiteConnection($"Data Source={dbPath};Version=3;");
 
 
         public SQLiteConnection connection

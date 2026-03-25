@@ -43,8 +43,8 @@ namespace Library_Management_App_v2
             genreCombo.DataSource = GetGenres();
             genreCombo.DropDownStyle = ComboBoxStyle.DropDownList;
             library.yes();
-        
 
+            MessageBox.Show("App started");
         }
 
         private void addBtn_Click(object sender, EventArgs e)
