@@ -6,9 +6,12 @@ using System.Data;
 using System.Data.Common;
 using System.Data.SqlClient;
 using System.Data.SQLite;
+using System.Drawing.Drawing2D;
+using System.IO;
 using System.Net;
 using System.Runtime.Remoting.Metadata.W3cXsd2001;
 using System.Security.Policy;
+using System.Windows.Forms;
 
 
 
@@ -16,12 +19,32 @@ namespace Library_Management_App_v2.Data
 {
     internal class Library
     {
-        private SQLiteConnection conn = new SQLiteConnection("Data Source=LibraryDB.sqlite;Version=3;");
+        //       private static string folder = Path.Combine(
+        //        Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+        //        "Library Management App v2"
+        //    );
+
+
+
+        //private static string dbPath = Path.Combine(folder, "LibraryAppDB.sqlite");
+       //SQLiteConnection conn = new SQLiteConnection($"Data Source=LibraryAppDB.sqlite;Version=3;");
+
+        private SQLiteConnection conn = new SQLiteConnection($"Data Source=LibraryAppDB.sqlite;Version=3;");
+        //private SQLiteConnection conn;
 
         public SQLiteConnection connection
         {
-            get { return conn; }
+            get
+            {
+                if (conn == null)
+                {
+
+                    conn = new SQLiteConnection($"Data Source=LibraryAppDB.sqlite;Version=3;");
+                }
+                return conn;
+            }
         }
+
 
         public void yes()
         {
@@ -39,82 +62,167 @@ namespace Library_Management_App_v2.Data
                         string columnType = reader["type"].ToString();
                         bool isPrimaryKey = Convert.ToInt32(reader["pk"]) == 1;
 
-                        Console.WriteLine($"{columnName} | {columnType} | PK: {isPrimaryKey}");
+                        Console.WriteLine($"{columnName} ha ha ha | {columnType} | PK: {isPrimaryKey}");
+                        Console.WriteLine(AppDomain.CurrentDomain.BaseDirectory);
                     }
                 }
                 connection.Close();
             }
         }
 
-        public void createDb()
+        public void createTables()
         {
-            connection.Open();
-        
-            var tableCommand = new SQLiteCommand(connection);
+            try
+            {
+                connection.Open();
+              
+                using (var transaction = connection.BeginTransaction())
+                {
 
-            tableCommand.CommandText = @"
-        CREATE TABLE IF NOT EXISTS Books (
-            BookId INTEGER PRIMARY KEY AUTOINCREMENT,
-            ISBN VARCHAR NOT NULL UNIQUE,
-            Title VARCHAR NOT NULL,
-            Author VARCHAR NOT NULL,      
-            Genre VARCHAR NOT NULL,
-            Description VARCHAR,    
-            AvailableCopies INTEGER NOT NULL,
-            TotalCopies INTEGER NOT NULL,
-            CHECK (TotalCopies >= 0),
-            CHECK (AvailableCopies >= 0),
-            CHECK (TotalCopies <= 20),
-            CHECK (AvailableCopies <= 20)
-        );";
-            tableCommand.ExecuteNonQuery();
-
-
-    
-            var memberCommand = new SQLiteCommand(connection);
-            memberCommand.CommandText = @"
-        CREATE TABLE IF NOT EXISTS Members (
-            MemberId INTEGER PRIMARY KEY AUTOINCREMENT,
-            Name VARCHAR NOT NULL,
-            Surname VARCHAR NOT NULL,
-            Email VARCHAR NOT NULL,
-            BorrowedBooksCount INTEGER DEFAULT 0,
-            SuspensionEndDate DATETIME,
-            CHECK (BorrowedBooksCount >= 0)
-            CHECK (BorrowedBooksCount <= 3)
-        );";
-            memberCommand.ExecuteNonQuery();
+                   var tableCommand = new SQLiteCommand(@"
+       CREATE TABLE IF NOT EXISTS Books (
+    BookId INTEGER PRIMARY KEY AUTOINCREMENT,
+    ISBN VARCHAR NOT NULL UNIQUE,
+    Title VARCHAR NOT NULL,
+    Author VARCHAR NOT NULL,
+    Genre VARCHAR NOT NULL,
+    Description VARCHAR,
+    AvailableCopies INTEGER NOT NULL CHECK (AvailableCopies >= 0 AND AvailableCopies <= 20),
+    TotalCopies INTEGER NOT NULL CHECK (TotalCopies >= 0 AND TotalCopies <= 20)
+);", connection, transaction);
+                    tableCommand.ExecuteNonQuery();
 
 
-        
-            var loanCommand = new SQLiteCommand(connection);
-            loanCommand.CommandText = @"
-        CREATE TABLE IF NOT EXISTS Loans (
-            Id INTEGER PRIMARY KEY AUTOINCREMENT,
-            BookId INTEGER NOT NULL,
-            MemberId INTEGER NOT NULL,
-            IsReturned BOOLEAN DEFAULT 0,
-            DateBorrowed DATETIME,
-            DueDate DATETIME,
-            ReturnDate DATETIME,
-            FOREIGN KEY(BookId) REFERENCES Books(BookId),
-            FOREIGN KEY(MemberId) REFERENCES Members(MemberId)
-        );";
-            loanCommand.ExecuteNonQuery();
 
+               
+                   var memberCommand = new SQLiteCommand(@"
+CREATE TABLE IF NOT EXISTS Members (
+    MemberId INTEGER PRIMARY KEY AUTOINCREMENT,
+    Name VARCHAR NOT NULL,
+    Surname VARCHAR NOT NULL,
+    Email VARCHAR NOT NULL,
+    BorrowedBooksCount INTEGER DEFAULT 0 CHECK (BorrowedBooksCount >= 0 AND BorrowedBooksCount <= 3),
+    SuspensionEndDate DATETIME
+);", connection, transaction);
+                    memberCommand.ExecuteNonQuery();
+
+
+
+                    var loanCommand = new SQLiteCommand(@"
+CREATE TABLE IF NOT EXISTS Loans (
+    Id INTEGER PRIMARY KEY AUTOINCREMENT,
+    BookId INTEGER NOT NULL,
+    MemberId INTEGER NOT NULL,
+    IsReturned BOOLEAN DEFAULT 0,
+    DateBorrowed DATETIME,
+    DueDate DATETIME,
+    ReturnDate DATETIME,
+    FOREIGN KEY(BookId) REFERENCES Books(BookId),
+    FOREIGN KEY(MemberId) REFERENCES Members(MemberId)
+);", connection, transaction);
+                    loanCommand.ExecuteNonQuery();
+
+                    transaction.Commit();
+                }
+            }
+            finally
+            {
+                if (connection.State == ConnectionState.Open)
+                {
+                    connection.Close();
+                }
+            }
 
             connection.Close();
             Console.WriteLine("Tables created successfully!");
         }
+        public bool LoanBook(int bookId, int memberId)
+        {
+            bool isReturned = false;
+            DateTime dateBorrowed = DateTime.Now, dueDate = dateBorrowed.AddDays(14);
+           
+            try
+            {
+                connection.Open();
+                using (var transaction = connection.BeginTransaction())
+                {
 
-        public bool checkBookAvailability()
+                    var updMem = new SQLiteCommand(@"SELECT BorrowedBooksCount
+FROM Members
+WHERE MemberId = @memberId", connection);
+
+                    updMem.Parameters.AddWithValue(@"memberId", memberId);
+                    long bookCount = (long)updMem.ExecuteScalar();
+
+                    if (bookCount >= 4)
+                    {
+                        return false;
+                    }
+
+                    var insertCmd = new SQLiteCommand(@"
+                INSERT INTO Loans (BookId, MemberId, IsReturned, DateBorrowed, DueDate, ReturnDate)
+                VALUES (@BookId, @MemberId, @IsReturned, @DateBorrowed, @DueDate, @DateReturned)",
+                                   connection, transaction);
+                    {
+                        insertCmd.Parameters.AddWithValue("@BookId", bookId);
+                        insertCmd.Parameters.AddWithValue("@MemberId", memberId);
+                        insertCmd.Parameters.AddWithValue("@IsReturned", isReturned ? 1 : 0);
+                        insertCmd.Parameters.AddWithValue("@DateBorrowed", dateBorrowed.ToString("yyyy-MM-dd"));
+                        insertCmd.Parameters.AddWithValue("@DueDate", dueDate.ToString("yyyy-MM-dd"));
+                        insertCmd.Parameters.AddWithValue("@DateReturned", DBNull.Value);
+
+                        insertCmd.ExecuteNonQuery();
+                    }
+
+                    var updateBook = new SQLiteCommand(
+                        "UPDATE Books SET AvailableCopies = AvailableCopies - 1 WHERE BookId = @BookId",
+                        connection, transaction);
+
+                    updateBook.Parameters.AddWithValue("@BookId", bookId);
+                    updateBook.ExecuteNonQuery();
+
+                    var updateMember = new SQLiteCommand(
+                        "UPDATE Members SET BorrowedBooksCount = BorrowedBooksCount + 1 WHERE MemberId = @MemberId",
+                        connection, transaction);
+
+                    updateMember.Parameters.AddWithValue("@MemberId", memberId);
+
+                    updateMember.ExecuteNonQuery();
+
+                    transaction.Commit();
+                    return true;
+                }
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+            finally
+            {
+                if (connection.State == ConnectionState.Open)
+                    connection.Close();
+            }
+        }
+        public bool checkBookAvailability(int bookId)
         {
             try
             {
                     connection.Open();
-                    var upd = new SQLiteCommand(@"CHECK(TotalCopies >= 0)", connection);
-                    upd.ExecuteNonQuery();
-                return true;
+                    var upd = new SQLiteCommand(@"
+                                                 SELECT COUNT(*) FROM Books
+                                                 WHERE BookId = @bookId AND AvailableCopies > 0
+                                                 ", connection);
+                upd.Parameters.AddWithValue(@"bookId", bookId);
+                    long bookAvailable = (long)upd.ExecuteScalar();
+                if (bookAvailable > 0)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+
             }
             catch (Exception m){ return false; throw new Exception(m.Message);  }
             finally
@@ -125,33 +233,53 @@ namespace Library_Management_App_v2.Data
                 }
             }
         }
-
-        public bool checkMemberBorrowedCount(int bookId, int memberId)
+        public long LoanCount(int memberId)
         {
             try
             {
                 connection.Open();
-                var updMem = new SQLiteCommand(@"CHECK(BorrowedBooksCount >= 0)", connection);
+                var updMem = new SQLiteCommand(@"SELECT BorrowedBooksCount
+FROM Members
+WHERE MemberId = @memberId", connection);
+
+                updMem.Parameters.AddWithValue(@"memberId", memberId);
+                long bookCount = (long)updMem.ExecuteScalar();
+            
+                return bookCount;
+            }
+            finally
+            {
+                if (connection.State == ConnectionState.Open)
+                {
+                    connection.Close();
+                }
+            }
+        }
+        public bool ExistingBorrow(int bookId, int memberId)
+        {
+            try
+            {
+                connection.Open();
                 var checkLoan = new SQLiteCommand(@"
     SELECT COUNT(*) 
     FROM Loans 
     WHERE BookId = @BookId 
       AND MemberId = @MemberId
-      AND IsReturned = 0
-         AND IsReturned = 1;", connection);
+      AND IsReturned = 0;", connection);
 
                 checkLoan.Parameters.AddWithValue("@BookId", bookId);
                 checkLoan.Parameters.AddWithValue("@MemberId", memberId);
 
                 long existing = (long)checkLoan.ExecuteScalar();
-                if (existing > 0)
+                if (existing == 1)
                 {
-                    throw new Exception("Member has already borrowed this book.");
+                    return true;
                 }
-                    updMem.ExecuteNonQuery();
-                return true;
+                else
+                {
+                    return false;
+                }
             }
-            catch (Exception m) { return false; throw new Exception(m.Message); }
             finally
             {
                 if (connection.State == ConnectionState.Open)
@@ -191,6 +319,7 @@ namespace Library_Management_App_v2.Data
 
                     if (rowsAffected > 0)
                     {
+                        transaction.Rollback();
                         return true;
                     }
                 else
@@ -208,65 +337,7 @@ namespace Library_Management_App_v2.Data
                 }
             }
         }
-        public void LoanBook(int bookId, int memberId)
-        {
-            bool isReturned = false;
-            DateTime dateBorrowed = DateTime.Now, dueDate = dateBorrowed.AddDays(14);
-
-            try
-            {
-                connection.Open();
-
-                using (var fkCmd = new SQLiteCommand("PRAGMA foreign_keys = ON;", connection))
-                {
-                    fkCmd.ExecuteNonQuery();
-                }
-
-                using (var transaction = connection.BeginTransaction())
-                {
-                    var insertCmd = new SQLiteCommand(@"
-                INSERT INTO Loans (BookId, MemberId, IsReturned, DateBorrowed, DueDate, ReturnDate)
-                VALUES (@BookId, @MemberId, @IsReturned, @DateBorrowed, @DueDate, @DateReturned)",
-                                   connection, transaction);
-                    {
-                        insertCmd.Parameters.AddWithValue("@BookId", bookId);
-                        insertCmd.Parameters.AddWithValue("@MemberId", memberId);
-                        insertCmd.Parameters.AddWithValue("@IsReturned", isReturned ? 1 : 0);
-                        insertCmd.Parameters.AddWithValue("@DateBorrowed", dateBorrowed.ToString("yyyy-MM-dd"));
-                        insertCmd.Parameters.AddWithValue("@DueDate", dueDate.ToString("yyyy-MM-dd"));
-                        insertCmd.Parameters.AddWithValue("@DateReturned", DBNull.Value);
-
-                        insertCmd.ExecuteNonQuery();
-                    }
-                    var updateBook = new SQLiteCommand(
-                        "UPDATE Books SET AvailableCopies = AvailableCopies - 1 WHERE BookId = @BookId",
-                        connection, transaction);
-                    
-                        updateBook.Parameters.AddWithValue("@BookId", bookId);
-                        updateBook.ExecuteNonQuery();
-
-            
-                    var updateMember = new SQLiteCommand(
-                        "UPDATE Members SET BorrowedBooksCount = BorrowedBooksCount + 1 WHERE MemberId = @MemberId",
-                        connection, transaction);
-                    
-                        updateMember.Parameters.AddWithValue("@MemberId", memberId);
-                        updateMember.ExecuteNonQuery();
-                    
-
-                    transaction.Commit();
-                }
-            }
-            catch (Exception e)
-            {
-                throw new Exception("Operation failed: " + e.Message);
-            }
-            finally
-            {
-                if (connection.State == ConnectionState.Open)
-                    connection.Close();
-            }
-        }
+   
         public bool returnLoaned(int bookId, int memberId)
         {
 
@@ -581,26 +652,17 @@ WHERE MemberId = @MemberId
 
         }
 
-        public void loadtoDB(BindingList<Model.Book> books)
+        public void loadtoDB(BindingList<Book> books)
         {
-           
             try
             {
                 connection.Open();
-                var clearBooks = new SQLiteCommand("DELETE FROM Books", connection);
-                clearBooks.ExecuteNonQuery();
-                //var command = new SQLiteCommand(@"DROP TABLE Loans", connection); command.ExecuteNonQuery();
-                //var command1 = new SQLiteCommand(@"DROP TABLE Books", conn); command1.ExecuteNonQuery();
-
-                //command.ExecuteNonQuery();
+            
                 using (var transaction = connection.BeginTransaction())
                 {
-
-                    //var command = new SQLiteCommand(@"DROP TABLE Books", connection);
-
                     var command = new SQLiteCommand(@"
-                    INSERT INTO Books (ISBN, Title, Author, Genre, Description, AvailableCopies, TotalCopies)
-                    VALUES (@ISBN, @Title, @Author, @Genre, @Description, @AvailableCopies, @TotalCopies)", connection, transaction);
+                        INSERT INTO Books (ISBN, Title, Author, Genre, Description, AvailableCopies, TotalCopies)
+                        VALUES (@ISBN, @Title, @Author, @Genre, @Description, @AvailableCopies, @TotalCopies)", connection, transaction);
 
                     foreach (var item in books)
                     {
@@ -616,14 +678,18 @@ WHERE MemberId = @MemberId
 
                         command.ExecuteNonQuery();
                     }
-
+                    //var clearBooks = new SQLiteCommand("DELETE FROM Books", connection);
+                    //clearBooks.ExecuteNonQuery();
+                    //var command3 = new SQLiteCommand(@"DROP TABLE Loans", connection); command3.ExecuteNonQuery();
+                    //var command1 = new SQLiteCommand(@"DROP TABLE Books", conn); command1.ExecuteNonQuery();
                     transaction.Commit();
+                 
                 }
 
             }
             catch (Exception m)
             {
-
+                MessageBox.Show(m.Message);
                 throw new Exception($"operation unsuccessful {m.Message}");
             }
             finally
@@ -634,7 +700,7 @@ WHERE MemberId = @MemberId
 
 
         }
-
+   
         public void reset()
         {
             try
