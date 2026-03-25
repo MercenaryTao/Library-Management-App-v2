@@ -1,7 +1,6 @@
 ﻿using Library_Management_App_v2.Controller;
 using Library_Management_App_v2.Data;
 using Library_Management_App_v2.Model;
-using Library_Management_App_v2.Service;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -21,7 +20,7 @@ namespace Library_Management_App_v2
     public partial class Borrow : Form
     {
         JSONStorage storage = new JSONStorage();
-        BusinessLogic businessLogic;
+ 
         BindingList<Model.Book> books = JSONStorage.books;
         BindingList<Model.Member> members = JSONStorage.members;
         BindingList<Model.Loan> loans = JSONStorage.loans;
@@ -29,12 +28,7 @@ namespace Library_Management_App_v2
         public Borrow()
         {            
             InitializeComponent();
-            //members = storage.loadMembersData("members.json");
-            //businessLogic = new BusinessLogic(books, members, loans);
-            //bookDgv.DataSource = books;
-            //memberView.DataSource = members;
-            //loanedDgv.DataSource = loans;
-            //businessLogic.overDueCheck();
+  
             bookDgv.DataSource = library.showAll();
             memberView.DataSource = library.showMembers();
         }
@@ -124,10 +118,10 @@ namespace Library_Management_App_v2
                 }
             }
         }   
-        catch (Exception ne)
+        catch (Exception)
         {
-                MessageBox.Show("Operation unsuccessful \n" + ne.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                //throw new Exception(ne.Message);
+                MessageBox.Show("Operation unsuccessful", "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+   
             }
             
 
@@ -199,8 +193,6 @@ namespace Library_Management_App_v2
 
             bool isOverdue = Convert.ToBoolean(row.Cells["IsReturned"].Value);
 
-
-            //var book = row.DataBoundItem as Loan;
 
             if (dueDate < DateTime.Now && isOverdue == false)
             { row.DefaultCellStyle.BackColor = Color.Red; }

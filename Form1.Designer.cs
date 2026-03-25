@@ -30,7 +30,6 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.updateBtn = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
             this.numDial = new System.Windows.Forms.NumericUpDown();
             this.label4 = new System.Windows.Forms.Label();
@@ -66,7 +65,6 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox1.BackColor = System.Drawing.Color.Transparent;
             this.groupBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.groupBox1.Controls.Add(this.updateBtn);
             this.groupBox1.Controls.Add(this.label5);
             this.groupBox1.Controls.Add(this.numDial);
             this.groupBox1.Controls.Add(this.label4);
@@ -85,16 +83,6 @@
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Add Books";
-            // 
-            // updateBtn
-            // 
-            this.updateBtn.Location = new System.Drawing.Point(221, 285);
-            this.updateBtn.Name = "updateBtn";
-            this.updateBtn.Size = new System.Drawing.Size(117, 50);
-            this.updateBtn.TabIndex = 13;
-            this.updateBtn.Text = "Update";
-            this.updateBtn.UseVisualStyleBackColor = true;
-            this.updateBtn.Click += new System.EventHandler(this.updateBtn_Click);
             // 
             // label5
             // 
@@ -298,6 +286,8 @@
             // 
             // dataDisplay
             // 
+            this.dataDisplay.AllowUserToAddRows = false;
+            this.dataDisplay.AllowUserToDeleteRows = false;
             this.dataDisplay.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
@@ -319,7 +309,7 @@
             this.reloadBtn.Name = "reloadBtn";
             this.reloadBtn.Size = new System.Drawing.Size(75, 48);
             this.reloadBtn.TabIndex = 5;
-            this.reloadBtn.Text = "Reload";
+            this.reloadBtn.Text = "Refresh";
             this.reloadBtn.UseVisualStyleBackColor = true;
             this.reloadBtn.Click += new System.EventHandler(this.reloadBtn_Click);
             // 
@@ -381,7 +371,6 @@
         private System.Windows.Forms.ComboBox srchCombo1;
         private System.Windows.Forms.NumericUpDown numDial;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Button updateBtn;
         private System.Windows.Forms.Button reloadBtn;
     }
 }
