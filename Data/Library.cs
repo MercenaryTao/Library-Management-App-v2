@@ -19,18 +19,9 @@ namespace Library_Management_App_v2.Data
 {
     internal class Library
     {
-        //       private static string folder = Path.Combine(
-        //        Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-        //        "Library Management App v2"
-        //    );
-
-
-
-        //private static string dbPath = Path.Combine(folder, "LibraryAppDB.sqlite");
-       //SQLiteConnection conn = new SQLiteConnection($"Data Source=LibraryAppDB.sqlite;Version=3;");
-
+  
         private SQLiteConnection conn = new SQLiteConnection($"Data Source=LibraryAppDB.sqlite;Version=3;");
-        //private SQLiteConnection conn;
+
 
         public SQLiteConnection connection
         {
@@ -56,8 +47,7 @@ namespace Library_Management_App_v2.Data
                     Console.WriteLine("Columns in Books table:");
                     while (reader.Read())
                     {
-                        // Columns from PRAGMA table_info:
-                        // 0 = cid, 1 = name, 2 = type, 5 = pk
+                        
                         string columnName = reader["name"].ToString();
                         string columnType = reader["type"].ToString();
                         bool isPrimaryKey = Convert.ToInt32(reader["pk"]) == 1;
@@ -455,6 +445,27 @@ VALUES (@ISBN, @Title, @Author, @Genre, @Description, @AvailableCopies, @TotalCo
                     connection.Close();
             }
 
+        }
+
+        //mothod disfunctional
+        public void UpdateBook(string isbn, int addedCopies)
+        {
+            try
+            {
+                connection.Open();
+                var updBook = new SQLiteCommand(@"UPDATE Books SET TotalCopies = TotalCopies + @addedCopies,
+        AvailableCopies = AvailableCopies + @addedCopies
+                                                      WHERE ISBN = @isbn
+                                                 ", connection);
+                updBook.Parameters.AddWithValue("@isbn", isbn);
+                updBook.Parameters.AddWithValue("@addedCopies", addedCopies);
+                updBook.ExecuteNonQuery();
+            }
+            finally
+            {
+                if (connection.State == ConnectionState.Open)
+                    connection.Close();
+            }
         }
         public void DeleteBook(string ISBN)
         {

@@ -1,7 +1,7 @@
 ﻿using Library_Management_App_v2.Controller;
 using Library_Management_App_v2.Data;
 using Library_Management_App_v2.Model;
-using Library_Management_App_v2.Service;
+
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -19,8 +19,6 @@ namespace Library_Management_App_v2
 {
     public partial class Form1 : Form
     {
-
-        BusinessLogic businessLogic;
         Library library = new Library();
         JSONStorage storage = new JSONStorage();
         BindingList<Model.Book> books = JSONStorage.books;
@@ -36,7 +34,7 @@ namespace Library_Management_App_v2
 
 
             books = storage.loadData("books.json");
-            //library.loadtoDB(books);
+
             dataDisplay.DataSource = library.showAll();
 
            
@@ -47,19 +45,6 @@ namespace Library_Management_App_v2
             library.yes();
         
 
-        }
-
-        private void createCols()
-        {
-            dataDisplay.Columns.Add("Id", "ID");
-            dataDisplay.Columns.Add("Title", "Title");
-            dataDisplay.Columns.Add("Author", "Author");
-            dataDisplay.Columns.Add("Genre", "Genre");
-            dataDisplay.Columns.Add("Description", "Description");
-            dataDisplay.Columns.Add("IsBorrowed", "Is Borrowed");
-            dataDisplay.Columns.Add("DateBorrowed", "Date Borrowed");
-            dataDisplay.Columns.Add("DueDate", "Due Date");
-            dataDisplay.Columns.Add("DateReturned", "Date Returned");
         }
 
         private void addBtn_Click(object sender, EventArgs e)
@@ -186,20 +171,30 @@ namespace Library_Management_App_v2
             Application.Exit();
         }
 
+        //button non-functional
         private void updateBtn_Click(object sender, EventArgs e)
         {
-            var selectedBook = dataDisplay.CurrentRow?.DataBoundItem as Model.Book;
-            int totalCopies = (int)numDial.Value;
-            MessageBox.Show($"Selected the book you want to edit and fill the above properties you wish to update\nPlease note that only a book's availble copies can be editted");
-            if (selectedBook != null)
+           
+          
+            int totUpdate = numDial.Value > 0 ? (int)numDial.Value : 1;
+            if (dataDisplay.SelectedRows.Count == 1)
             {
-             //businessLogic.updateBook(selectedBook, totalCopies);
-                MessageBox.Show($"Book has been updated.");
+                DataGridViewRow row = dataDisplay.SelectedRows[0];
+                string isbn = row.Cells["ISBN"].Value.ToString();
+   
+                if (totUpdate <= 20)
+                {
+                    library.UpdateBook(isbn, totUpdate);
+                }
+
             }
             else
             {
-                MessageBox.Show("Select the book you wish to edit", "Incorrect Selection", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                MessageBox.Show($"Select the book you want to edit and fill the above properties you wish to update\n" +
+                    $"Please note that only a book's total copies can be editted to up to 20");
             }
+
+
         }
 
         private void dataDisplay_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
