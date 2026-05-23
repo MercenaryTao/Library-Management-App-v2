@@ -104,9 +104,8 @@ namespace Library_Management_App_v2
                 {
                     Model.Book book = new Model.Book(isbn, title, author, genre.ToString(), desc, availCopies,totalCopies);
 
-                    //businessLogic.addBook(book);
                     library.addBook(book);
-                    //dataDisplay.DataSource = library.showAll();
+            
                     MessageBox.Show("Book added successfully");
                 }
                 else

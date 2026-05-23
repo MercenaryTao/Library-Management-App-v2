@@ -160,6 +160,54 @@ namespace Library_Management_App_v2.Data
                 }
             }
         }
+
+        public bool Suspension()
+        {
+            DateTime today = DateTime.Now;
+            DateTime suspenEnd = today.AddDays(14);
+            try
+            {
+                conn.Open();
+                using (var transaction = conn.BeginTransaction())
+                {
+                    var updateMember = new SQLiteCommand(@"
+                UPDATE Members
+                SET SuspensionEndDate = @suspenEnd
+                WHERE MemberId IN (
+                    SELECT MemberId
+                    FROM Loans
+                    WHERE IsReturned = 0
+                      AND DueDate < @Today
+                    GROUP BY MemberId
+                    HAVING COUNT(*) >= 3
+                );", conn, transaction);
+
+                    updateMember.Parameters.AddWithValue("@Today", today);
+                    updateMember.Parameters.AddWithValue("@suspenEnd", suspenEnd);
+
+                    int rowsAffected = updateMember.ExecuteNonQuery();
+
+                    transaction.Commit();
+
+                    if (rowsAffected > 0)
+                    {
+                        return true;
+                    }
+                else
+                    {
+                        return false;
+                    }
+                }
+                
+            }
+            finally
+            {
+                if (conn.State == ConnectionState.Open)
+                {
+                    conn.Close();
+                }
+            }
+        }
         public void LoanBook(int bookId, int memberId)
         {
             bool isReturned = false;

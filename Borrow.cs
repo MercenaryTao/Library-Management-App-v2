@@ -122,6 +122,13 @@ namespace Library_Management_App_v2
                         MessageBox.Show("There Are No More Available Copies");
                         return;
                     }
+                    bool booksOverdue = library.Suspension();
+                    if (booksOverdue)
+                    {
+                        MessageBox.Show("Member under suspension", "Suspension", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        return;
+                    }
+                 
                     library.checkBookAvailability();
 
                     library.LoanBook(bookId, memberId);
