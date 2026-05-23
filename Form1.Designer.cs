@@ -52,6 +52,7 @@
             this.borrowMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.addNewMemberToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dataDisplay = new System.Windows.Forms.DataGridView();
+            this.reloadBtn = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numDial)).BeginInit();
             this.groupBox2.SuspendLayout();
@@ -306,10 +307,21 @@
             this.dataDisplay.MultiSelect = false;
             this.dataDisplay.Name = "dataDisplay";
             this.dataDisplay.ReadOnly = true;
+            this.dataDisplay.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataDisplay.Size = new System.Drawing.Size(884, 32);
             this.dataDisplay.TabIndex = 4;
             this.dataDisplay.TabStop = false;
             this.dataDisplay.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.dataDisplay_DataBindingComplete);
+            // 
+            // reloadBtn
+            // 
+            this.reloadBtn.Location = new System.Drawing.Point(25, 447);
+            this.reloadBtn.Name = "reloadBtn";
+            this.reloadBtn.Size = new System.Drawing.Size(75, 48);
+            this.reloadBtn.TabIndex = 5;
+            this.reloadBtn.Text = "Reload";
+            this.reloadBtn.UseVisualStyleBackColor = true;
+            this.reloadBtn.Click += new System.EventHandler(this.reloadBtn_Click);
             // 
             // Form1
             // 
@@ -319,6 +331,7 @@
             this.BackgroundImage = global::Library_Management_App_v2.Properties.Resources._27d9f760978c30b9118665485f8f82b5;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(1143, 602);
+            this.Controls.Add(this.reloadBtn);
             this.Controls.Add(this.dataDisplay);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
@@ -369,6 +382,7 @@
         private System.Windows.Forms.NumericUpDown numDial;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Button updateBtn;
+        private System.Windows.Forms.Button reloadBtn;
     }
 }
 

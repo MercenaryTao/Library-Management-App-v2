@@ -82,6 +82,7 @@
             this.memberView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.memberView.Location = new System.Drawing.Point(269, 45);
             this.memberView.Name = "memberView";
+            this.memberView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.memberView.Size = new System.Drawing.Size(474, 318);
             this.memberView.TabIndex = 5;
             // 
