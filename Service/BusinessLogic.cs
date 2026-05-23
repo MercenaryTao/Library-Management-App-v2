@@ -13,18 +13,18 @@ namespace Library_Management_App_v2.Service
 {
     internal class BusinessLogic
     {
-        Library library = new Library();
-        public JSONStorage JSONStorage = new JSONStorage();
-        BindingList<Model.Book> books = new BindingList<Book>();
-        BindingList<Model.Member> members = new BindingList<Member>();
-        BindingList<Loan> loans = new BindingList<Loan>();
+        //Library library = new Library();
+        //public JSONStorage JSONStorage = new JSONStorage();
+        //BindingList<Model.Book> books = new BindingList<Book>();
+        //BindingList<Model.Member> members = new BindingList<Member>();
+        //BindingList<Loan> loans = new BindingList<Loan>();
 
-        public BusinessLogic(BindingList<Book> loadedBooks, BindingList<Member> loadedMembers, BindingList<Loan> loaned)
-        {
-            books = loadedBooks;
-            members = loadedMembers;
-            loans = loaned;
-        }
+        //public BusinessLogic(BindingList<Book> loadedBooks, BindingList<Member> loadedMembers, BindingList<Loan> loaned)
+        //{
+        //    books = loadedBooks;
+        //    members = loadedMembers;
+        //    loans = loaned;
+        //}
         //public void deleteBook(int id)
         //{
 
@@ -39,10 +39,10 @@ namespace Library_Management_App_v2.Service
         //        MessageBox.Show("Book not found.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         //    }
         //}
-        public void addBook(Model.Book book)
-        {
-            library.addBook(book);            
-        }
+        //public void addBook(Model.Book book)
+        //{
+        //    library.addBook(book);            
+        //}
 
 
         //public int idGen()
@@ -105,45 +105,45 @@ namespace Library_Management_App_v2.Service
         //    return searchResults;
         //}
 
-        public void borrowBook(Book book, Member member)
-        {
+        //public void borrowBook(Book book, Member member)
+        //{
 
-            try
-            {
+        //    try
+        //    {
 
-                if (member.BorrowedBooksCount >= 5)
-                {
-                    throw new InvalidOperationException("Member cannot borrow more than 5 books.");
+        //        if (member.BorrowedBooksCount >= 5)
+        //        {
+        //            throw new InvalidOperationException("Member cannot borrow more than 5 books.");
 
-                }
-                if (book.availableCopies <= 0)
-                { 
-                    throw new InvalidOperationException("No available copies of the book.");
-                }
-                if (member.IsSuspended)
-                {
-                    return;
+        //        }
+        //        if (book.availableCopies <= 0)
+        //        { 
+        //            throw new InvalidOperationException("No available copies of the book.");
+        //        }
+        //        if (member.IsSuspended)
+        //        {
+        //            return;
                
-                }
-                int id = loans.Any() ? loans.Max(l => l.Id) + 1 : 1;
+        //        }
+        //        int id = loans.Any() ? loans.Max(l => l.Id) + 1 : 1;
 
-                loans.Add(new Loan(id, false, DateTime.Now, DateTime.Now.AddDays(14), null));
+        //        loans.Add(new Loan(id, false, DateTime.Now, DateTime.Now.AddDays(14), null));
 
-                book.availableCopies--;
-                member.BorrowedBooksCount++;
+        //        book.availableCopies--;
+        //        member.BorrowedBooksCount++;
 
-                JSONStorage.SaveData(books, "books.json");
-                JSONStorage.SaveMembersData(members, "members.json");
-                JSONStorage.SaveLoansData(loans, "loans.json");
+        //        JSONStorage.SaveData(books, "books.json");
+        //        JSONStorage.SaveMembersData(members, "members.json");
+        //        JSONStorage.SaveLoansData(loans, "loans.json");
 
 
-            }
-            catch (Exception)
-            {
-                return;
-            }
+        //    }
+        //    catch (Exception)
+        //    {
+        //        return;
+        //    }
 
-        }
+        //}
 
         //public void returnBook(Book book, Member member)
         //{
